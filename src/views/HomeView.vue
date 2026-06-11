@@ -1,9 +1,10 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
 </script>
 
 <template>
+
+  <h1>The Univers of Things</h1>
+
   <main>
-    <TheWelcome />
   </main>
 </template>
