@@ -37,10 +37,10 @@ function retrocederPagina() {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .btn-morado-gradient {
   background: linear-gradient(135deg, #7c4dff, #b766f2) !important;
   color: white !important;
-  border: none !important; 
+  border: none !important;
 }
 </style>
