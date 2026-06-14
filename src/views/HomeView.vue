@@ -1,5 +1,6 @@
 <script setup>
 import HomeCatalogSearchInput from '@/components/home-catalog/HomeCatalogSearchInput.vue'
+import HomeCatalogGenreFilter from '@/components/home-catalog/HomeCatalogGenreFilter.vue'
 </script>
 
 <template>
@@ -7,6 +8,7 @@ import HomeCatalogSearchInput from '@/components/home-catalog/HomeCatalogSearchI
   <h1>The Univers of Things</h1>
 <div>
   <HomeCatalogSearchInput/>
+  <HomeCatalogGenreFilter/>
 </div>
   <main>
   </main>
