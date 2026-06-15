@@ -1,12 +1,14 @@
 <script setup>
 import { ref } from "vue";
+import searchIcon from "@/assets/home-catalog/home-search-input-icon.png";
+
 const text = ref("");
 </script>
 
 <template>
   <div>
     <img
-      src="/public/icono-lupa-home-searc-input.png"
+      :src="searchIcon"
       alt="Magnifying glass search icon for anime catalog"
     />
     <input v-model="text" type="search" placeholder="Buscar anime..." />
