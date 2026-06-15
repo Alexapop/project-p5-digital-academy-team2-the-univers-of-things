@@ -1,10 +1,10 @@
 <script setup>
-
+import LogoComponent from '../logo/LogoComponent.vue'
 </script>
 
 <template>
     <header class="header">
-       
+       <LogoComponent />
     </header>
 </template>
 
