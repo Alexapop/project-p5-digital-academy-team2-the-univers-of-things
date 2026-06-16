@@ -9,6 +9,7 @@ import PaginationHub from '../components/pagination/PaginationHub.vue'
   <h1>The Univers of Things</h1>
   <LoginButton />
 
+
   <main>
     <PaginationHub />
 
