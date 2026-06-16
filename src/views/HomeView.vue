@@ -1,5 +1,5 @@
 <script setup>
-import LoginButton from '../components/login/LoginButton.vue'
+import HeroSection from '../components/hero/HeroSection.vue'
 import PaginationHub from '../components/pagination/PaginationHub.vue'
 
 import HomeCatalogSearchInput from "@/components/home-catalog/HomeCatalogSearchInput.vue";
@@ -8,8 +8,8 @@ import HomeCatalogGenreFilter from "@/components/home-catalog/HomeCatalogGenreFi
 
 <template>
   <h1>The Univers of Things</h1>
-  <LoginButton />
-
+  
+  <HeroSection />
 
   <main>
     <div>
@@ -18,6 +18,8 @@ import HomeCatalogGenreFilter from "@/components/home-catalog/HomeCatalogGenreFi
     </div>
     
     <PaginationHub />
+    
+
 
   </main>
 
