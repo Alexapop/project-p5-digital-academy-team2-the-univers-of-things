@@ -27,4 +27,30 @@ const items = ref([
   </select>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+select {
+   position: relative;
+  width: 100%;
+  max-width: 256px;
+  margin: 100px auto 0;
+   width: 100%;
+  height: 34px;
+  padding: 4px 12px 4px 36px;
+  border-radius: 8px;
+  border: 1.7px solid #cbd5e1;
+  background-color: #f8fafc;
+  font-size: 14px;
+  font-weight: 480;
+   line-height: 20px;
+  color: #000;
+}
+
+select:focus {
+  outline: none;
+  border-color: lab(44.1718% 42.6675 -75.4052);
+}
+
+select::placeholder {
+  color: #475569;
+  opacity: 1;}
+</style>
