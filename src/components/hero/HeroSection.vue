@@ -1,6 +1,7 @@
 <script setup>
 import LoginButton from '../login/LoginButton.vue'
 import WeeklyBadge from './WeeklyBadge.vue'
+import AnimeCard from '../card/AnimeCard.vue'
 </script>
 
 <template>
@@ -22,7 +23,8 @@ import WeeklyBadge from './WeeklyBadge.vue'
       <WeeklyBadge />
       
       <div class="weekly-card-slot">
-        </div>
+        <AnimeCard />
+      </div>
     </div>
   </section>
 </template>
@@ -45,7 +47,7 @@ import WeeklyBadge from './WeeklyBadge.vue'
     font-weight: 700;
 
     &--highlight {
-      color: #8a4fff;
+      color: #8a4fff; // El morado corporativo
     }
   }
 
@@ -64,16 +66,16 @@ import WeeklyBadge from './WeeklyBadge.vue'
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 350px; 
+    width: 350px; // El ancho de la tarjeta según el diseño
   }
 }
 
 .weekly-card-slot {
   width: 100%;
-  min-height: 400px; 
+  min-height: 400px; // El espacio que ocupará la foto de Frieren
   background: #ffffff;
   border: 1px solid #eaeaea;
-  border-top: none; 
+  border-top: none; // Para que encaje perfectamente con el borde inferior del cartel
   border-radius: 0 0 8px 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }

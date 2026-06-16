@@ -18,10 +18,5 @@ import HomeCatalogGenreFilter from "@/components/home-catalog/HomeCatalogGenreFi
     </div>
     
     <PaginationHub />
-    
-
-
   </main>
-
-
 </template>
