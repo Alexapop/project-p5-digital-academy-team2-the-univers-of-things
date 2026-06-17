@@ -6,15 +6,20 @@ import HomeCatalogSearchInput from "@/components/home-catalog/HomeCatalogSearchI
 import HomeCatalogGenreFilter from "@/components/home-catalog/HomeCatalogGenreFilter.vue"
 import FooterComponent from '@/components/footer/FooterComponent.vue'
 import AnimeDetail from '@/components/detail/AnimeDetail.vue';
+import FeaturedAnime from '@/components/featured/FeaturedAnime.vue'
 </script>
 
 <template>
   <HeaderComponent />
 
   <h1>The Univers of Things</h1>
+  
   <LoginButton />
 
   <main>
+    <div>
+      <FeaturedAnime />
+    </div>
     <div>
       <HomeCatalogSearchInput />
       <HomeCatalogGenreFilter />
