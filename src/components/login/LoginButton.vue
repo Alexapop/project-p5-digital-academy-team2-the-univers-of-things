@@ -1,11 +1,11 @@
 <script setup>
-
+import { RouterLink } from 'vue-router';
 </script>
 
 <template>
-  <a href="#" class="btn btn-light text-secondary fw-semibold">
+  <RouterLink to="/login" class="btn btn-light text-secondary fw-semibold">
     Iniciar sesión
-  </a>
+  </RouterLink>
 </template>
 
 <style scoped  lang="scss" >
