@@ -1,10 +1,13 @@
 <script setup>
 import LogoComponent from '../logo/LogoComponent.vue'
+import LoginButton from '../login/LoginButton.vue'
 </script>
 
 <template>
     <header class="header">
        <LogoComponent />
+       
+       <LoginButton />
     </header>
 </template>
 
@@ -24,5 +27,5 @@ import LogoComponent from '../logo/LogoComponent.vue'
     top: 0;
     z-index: 100;
 }
-    
+
 </style>

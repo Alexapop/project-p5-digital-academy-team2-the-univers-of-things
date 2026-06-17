@@ -20,7 +20,6 @@ div {
   position: relative;
   width: 100%;
   max-width: 256px;
-  margin: 200px auto 0;
 }
 img {
   position: absolute;

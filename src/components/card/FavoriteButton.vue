@@ -2,11 +2,12 @@
 </script>
 
 <template>
-    <a href="" class="btn btn-secondary">❤️</a>
+    <button class="btn btn-secondary">❤️</button>
 </template>
 
 <style scoped>
 .btn-secondary {
+    font-size: 20px;
     background-color: rgb(221, 224, 224);
     border-style: none;
     color: black;
