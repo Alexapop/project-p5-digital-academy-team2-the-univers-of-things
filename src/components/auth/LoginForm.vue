@@ -1,21 +1,76 @@
 <script setup>
 import LogoComponent from '@/components/logo/LogoComponent.vue'
+import { useAuthStore } from '@/stores/auth'
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const email = ref('')
+const password = ref('')
+
+const emailError = ref('')
+const passwordError = ref('')
+const loginError = ref('')
+
+const route = useRoute()
+const router = useRouter()
+
+const authStore = useAuthStore()
+
+async function login() {
+    emailError.value = ''
+    passwordError.value = ''
+    loginError.value = ''
+
+    if (!email.value) {
+        emailError.value = 'Correo inválido'
+    }
+
+    if (!password.value || password.value.length < 6){
+        passwordError.value = 'Mínimo 6 caracteres'
+    }
+
+    if (emailError.value || passwordError.value) {
+        return
+    }
+
+    const authenticated = authStore.login(email.value, password.value)
+
+    if (authenticated) {
+        const redirectPath = route.query.redirect || '/'
+        router.push(redirectPath)
+        return
+    }
+
+    loginError.value = 'Credenciales incorrectas'
+}
 </script>
 
 <template>
         <section class="login-panel">
-            <form class="login-form">
+            <form class="login-form" @submit.prevent="login">
+                <div v-if="loginError" class="login-form-alert">
+                    <span>!</span>
+                    {{ loginError }}
+                </div>
+
                 <div class="login-form-logo">
                     <LogoComponent />
                 </div>
+
                 <h2>Bienvenido de vuelta</h2>
                 <p>Inicia sesión en tu cuenta.</p>
 
                 <label for="email">Correo electrónico</label>
-                <input id="email" type="email" />
+                <input id="email" v-model="email" type="email" />
+                <p v-if="emailError" class="login-form-error">
+                    {{ emailError }}
+                </p>
 
                 <label for="password">Contraseña</label>
-                <input id="password" type="password" />
+                <input id="password" v-model="password" type="password" />
+                <p v-if="passwordError" class="login-form-error">
+                    {{ passwordError }}
+                </p>
 
                 <button type="submit">Entrar</button>
                 
@@ -36,6 +91,33 @@ import LogoComponent from '@/components/logo/LogoComponent.vue'
         width: 100%;
         max-width: 448px;
 
+        &-alert {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 56px;
+            padding: 16px 20px;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            background: #fef2f2;
+            color: #dc2626;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #dc2626;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
         h2 {
             font-size: 30px;
             font-weight: 700;
@@ -49,6 +131,13 @@ import LogoComponent from '@/components/logo/LogoComponent.vue'
             color: #4b5563;
             font-size: 14px;
             line-height: 1.4;
+        }
+
+        p.login-form-error {
+            margin-top: 4px;
+            color: #ff0000;
+            font-size: 12px;
+            line-height: 1.2;
         }
 
         label {
