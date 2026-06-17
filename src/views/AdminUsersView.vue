@@ -1,17 +1,34 @@
 <script setup>
-// Importamos tu nuevo sidebar usando el alias @ que prefiere el equipo
 import AdminSidebar from '@/components/admin/AdminSidebar.vue'
+import AdminUsersTable from '@/components/admin/AdminUsersTable.vue'
 </script>
 
 <template>
   <div class="admin-layout">
     <AdminSidebar />
 
-    <main class="flex-grow-1" style="padding: 40px; background: #f8f9fa;">
-      <h1 class="fw-bold">Usuarios</h1>
-      <p class="text-muted">Gestiona el acceso de los usuarios registrados.</p>
+    <div class="d-flex flex-column flex-grow-1 min-vh-100 bg-light">
       
+      <header class="bg-white border-bottom px-5 py-3 d-flex justify-content-between align-items-center">
+        <span class="fw-semibold text-secondary">Panel de Administración</span>
+        <a href="/" class="text-decoration-none text-secondary small d-flex align-items-center gap-1">
+          &larr; Volver al sitio
+        </a>
+      </header>
+
+      <main class="flex-grow-1 px-5 py-4">
+        <div class="mb-4 pt-2">
+          <h1 class="fw-bold text-dark display-6 m-0">Usuarios</h1>
+          <p class="text-muted mt-1">Gestiona el acceso de los usuarios registrados.</p>
+        </div>
+        
+        <AdminUsersTable />
       </main>
+
+      <footer class="bg-light px-5 py-3 border-top mt-auto">
+        <span class="text-muted small">&copy; 2026 OtakuHub &mdash; Panel privado.</span>
+      </footer>
+    </div>
   </div>
 </template>
 
