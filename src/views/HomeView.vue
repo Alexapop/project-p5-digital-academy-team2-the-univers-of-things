@@ -5,6 +5,7 @@ import HomeCatalogSearchInput from "@/components/home-catalog/HomeCatalogSearchI
 import HomeCatalogGenreFilter from "@/components/home-catalog/HomeCatalogGenreFilter.vue"
 import HeaderComponent from '@/components/header/HeaderComponent.vue'
 import FooterComponent from '@/components/footer/FooterComponent.vue'
+import AnimeDetail from '@/components/detail/AnimeDetail.vue';
 </script>
 
 <template>
