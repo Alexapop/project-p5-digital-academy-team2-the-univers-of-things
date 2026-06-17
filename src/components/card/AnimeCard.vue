@@ -1,5 +1,5 @@
 <script setup>
-import FavoriteButton from './FavoriteButton.vue';
+import FavoriteButton from './src/components/card/FavoriteButton.vue';
 
 </script>
 
@@ -20,7 +20,7 @@ import FavoriteButton from './FavoriteButton.vue';
                 or revenge for his old wounds.</p>
             <div class="card-buttons">
                 <a href="" class="btn btn-primary">See more</a>
-                <FavoriteButton />
+                <FavoriteButton />                
             </div>
         </div>
     </div>
