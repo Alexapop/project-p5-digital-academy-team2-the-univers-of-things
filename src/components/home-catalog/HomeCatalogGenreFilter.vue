@@ -30,10 +30,8 @@ const items = ref([
 <style lang="scss" scoped>
 select {
    position: relative;
-  width: 100%;
   max-width: 256px;
-  margin: 100px auto 0;
-   width: 100%;
+  width: 100%;
   height: 34px;
   padding: 4px 12px 4px 36px;
   border-radius: 8px;

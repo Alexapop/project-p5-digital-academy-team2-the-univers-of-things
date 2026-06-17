@@ -1,0 +1,141 @@
+<script setup>
+import HomeCatalogSearchInput from "./HomeCatalogSearchInput.vue"
+import HomeCatalogGenreFilter from "./HomeCatalogGenreFilter.vue"
+import PaginationHub from "../pagination/PaginationHub.vue"
+import AnimeCard from "../card/AnimeCard.vue"
+
+const animes = [
+  { id: 1 },
+  { id: 2 },
+  { id: 3 },
+  { id: 4 },
+  { id: 5 },
+  { id: 6 },
+  { id: 7 },
+  { id: 8 },
+  { id: 9 },
+  { id: 10 },
+  { id: 11 },
+  { id: 12 },
+]
+</script>
+
+<template>
+  <section class="home-catalog container-fluid px-4 px-lg-5">
+    <header
+      class="home-catalog__header d-flex flex-column flex-lg-row justify-content-between gap-3"
+    >
+      <div class="home-catalog__title">
+        <h2>Cat&aacute;logo</h2>
+        <p>Filtra por g&eacute;nero, busca y descubre algo nuevo.</p>
+      </div>
+
+      <div class="home-catalog__filters d-flex flex-column flex-sm-row gap-2">
+        <HomeCatalogSearchInput />
+        <HomeCatalogGenreFilter />
+      </div>
+    </header>
+
+    <div class="home-catalog__grid row row-cols-2 row-cols-lg-4 g-4">
+      <div class="col" v-for="anime in animes" :key="anime.id">
+        <AnimeCard />
+      </div>
+    </div>
+
+    <PaginationHub />
+  </section>
+</template>
+
+<style lang="scss" scoped>
+.home-catalog {
+  margin-top: clamp(120px, 35vh, 280px);
+  padding-bottom: 48px;
+
+  &__header {
+    margin-bottom: 32px;
+  }
+
+  &__title {
+    h2 {
+      margin: 0;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.1;
+      color: #020617;
+    }
+
+    p {
+      margin: 4px 0 0;
+      font-size: 18px;
+      color: #475569;
+    }
+  }
+
+  &__filters {
+    align-items: flex-start;
+    padding-top: 32px;
+
+    :deep(> div),
+    :deep(> select) {
+      margin: 0;
+    }
+
+    :deep(> div) {
+      width: 320px;
+      max-width: 320px;
+    }
+
+    :deep(> select) {
+      width: 220px;
+      max-width: 220px;
+      padding-left: 16px;
+    }
+  }
+
+  :deep(.card) {
+    width: 100% !important;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  :deep(.card-img-top) {
+    width: 100%;
+    height: clamp(260px, 32vw, 420px);
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .home-catalog {
+    margin-top: clamp(96px, 28vh, 180px);
+
+    &__header {
+      margin-bottom: 24px;
+    }
+
+    &__title {
+      h2 {
+        font-size: 30px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+
+    &__filters {
+      padding-top: 0;
+
+      :deep(> div),
+      :deep(> select) {
+        width: 100%;
+        max-width: none;
+      }
+    }
+
+    :deep(.card-img-top) {
+      height: clamp(190px, 58vw, 280px);
+    }
+  }
+}
+</style>
