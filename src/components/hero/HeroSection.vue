@@ -78,5 +78,11 @@ import AnimeCard from '../card/AnimeCard.vue'
   border-top: none; // Para que encaje perfectamente con el borde inferior del cartel
   border-radius: 0 0 8px 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  // 🔥 Cambios aplicados para centrar la tarjeta de Hanna:
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
 }
 </style>
