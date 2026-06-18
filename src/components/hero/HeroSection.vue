@@ -36,7 +36,9 @@ import AnimeCard from '../card/AnimeCard.vue'
   justify-content: space-between;
   align-items: center;
   padding: 4rem 2rem;
-  background-color: #fafdff; 
+  background-color: #fafdff;
+  margin-left: 100px;
+  margin-right: 100px;
 
   &__content {
     max-width: 50%;
@@ -85,5 +87,26 @@ import AnimeCard from '../card/AnimeCard.vue'
   justify-content: center;
   align-items: center;
   padding: 1rem;
+}
+
+@media (max-width: 767.98px) {
+  .hero {
+    flex-direction: column;
+    margin: 0px;
+
+    &__content {
+      max-width: 100%;
+      text-align: center;
+    }
+
+    &__actions {
+      justify-content: center;
+    }
+
+    &__featured {
+      margin-top: 30px;
+    }
+
+  }
 }
 </style>
