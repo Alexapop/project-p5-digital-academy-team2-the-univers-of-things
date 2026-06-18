@@ -1,12 +1,14 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import { useAnimeStore } from "@/stores/animeStore";
+import { useAdminStore } from "@/stores/admin"; // Mantenemos el store por si acaso
 import HomeCatalogSearchInput from "./HomeCatalogSearchInput.vue";
 import HomeCatalogGenreFilter from "./HomeCatalogGenreFilter.vue";
 import PaginationHub from "../pagination/PaginationHub.vue";
 import AnimeCard from "../card/AnimeCard.vue";
 
 const animeStore = useAnimeStore();
+const adminStore = useAdminStore();
 const searchText = ref("");
 
 onMounted(() => {
@@ -17,28 +19,21 @@ onMounted(() => {
 
 const searchError = computed(() => {
   const query = searchText.value.trim();
-
-  if (query === "") {
-    return "";
-  }
-
+  if (query === "") return "";
   if (!/^[a-zA-Z\s]+$/.test(query)) {
     return "Por favor, introduce solo letras.";
   }
-
   return "";
 });
+
 const filteredAnimes = computed(() => {
   const query = searchText.value.trim().toLowerCase();
-
   if (query === "") {
     return animeStore.paginatedAnimes;
   }
-
   if (searchError.value !== "") {
     return [];
   }
-
   return animeStore.animes.filter((anime) =>
     anime.title.toLowerCase().includes(query),
   );
@@ -47,12 +42,11 @@ const filteredAnimes = computed(() => {
 
 <template>
   <section class="home-catalog container-fluid px-4 px-lg-5">
-    <header
-      class="home-catalog__header d-flex flex-column flex-lg-row justify-content-between gap-3"
-    >
+    
+    <header class="home-catalog__header d-flex flex-column flex-lg-row justify-content-between gap-3">
       <div class="home-catalog__title">
-        <h2>Cat&aacute;logo</h2>
-        <p>Filtra por g&eacute;nero, busca y descubre algo nuevo.</p>
+        <h2>Catálogo General</h2>
+        <p>Filtra por género, busca y descubre algo nuevo.</p>
       </div>
 
       <div class="home-catalog__filters d-flex flex-column flex-sm-row gap-2">
@@ -170,6 +164,7 @@ const filteredAnimes = computed(() => {
   color: #dc3545;
   font-size: 14px;
 }
+
 @media (max-width: 767.98px) {
   .home-catalog {
     margin-top: clamp(96px, 28vh, 180px);
