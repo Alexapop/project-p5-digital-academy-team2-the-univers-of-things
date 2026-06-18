@@ -33,9 +33,14 @@ async function login() {
         return
     }
 
-    const authenticated = authStore.login(email.value, password.value)
+    const authenticatedUser = authStore.login(email.value, password.value)
 
-    if (authenticated) {
+    if (authenticatedUser) {
+        if (authenticatedUser.role === 'admin') {
+            router.push('/admin/usuarios')
+            return
+        }
+        
         const redirectPath = route.query.redirect || '/'
         router.push(redirectPath)
         return

@@ -2,21 +2,38 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', () => {
-    const user = ref(
+    const users = ref([
         {
-        email: 'user@otakuhub.dev',
-        password: 'user1234',
-        isAuthenticated: false,
-        }
-    )
+            email: 'user@otakuhub.dev',
+            password: 'user1234',
+            role: 'customer',
+        },
+        {
+            email: 'admin@otakuhub.dev',
+            password: 'admin123',
+            role: 'admin',
+        },
+    ])
+
+    const currentUser = ref(null)
 
     function login(email, password) {
-        if (email === user.value.email && password === user.value.password) {
-            user.value.isAuthenticated = true
-            return true
+        const foundUser = users.value.find((user) => {
+            return user.email === email && user.password === password
+        })
+
+        if (!foundUser) {
+            return false
         }
 
-        return false
+        currentUser.value = {
+            email: foundUser.email,
+            role: foundUser.role,
+            isAuthenticated: true,
+        }
+
+        return currentUser.value
     }
-    return { user, login }
+    
+    return { users, currentUser, login }
 })
