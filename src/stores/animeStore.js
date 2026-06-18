@@ -5,8 +5,20 @@ export const useAnimeStore = defineStore('anime', {
     state: () => ({
         animes: [],
         loading: false,
-        error: null
+        error: null,
+        currentPage: 1,
+        perPage: 8
     }),
+  
+    getters: {
+        totalPages: (state) => Math.ceil(state.animes.length / state.perPage),
+        
+        paginatedAnimes: (state) => {
+            const start = (state.currentPage - 1) * state.perPage
+            const end = start + state.perPage
+            return state.animes.slice(start, end)
+        }
+    },
   
     actions: {
         async fetchAnimes() {
@@ -21,6 +33,10 @@ export const useAnimeStore = defineStore('anime', {
             } finally {
                 this.loading = false
             }
+        },
+        
+        goToPage(page) {
+            this.currentPage = page
         }
     }
 })

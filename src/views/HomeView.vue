@@ -13,8 +13,8 @@ import FeaturedAnime from '@/components/featured/FeaturedAnime.vue'
   <HeroSection />
 
   <main>
-  <FeaturedAnime />
-  <HomeCatalogSection />
+    <FeaturedAnime />
+    <HomeCatalogSection />
   </main>
 
   <FooterComponent />
