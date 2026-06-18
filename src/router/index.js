@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,23 +10,20 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/login',
+      path: '/login', 
       name: 'login',
-      component: LoginView,
+      component: () => import('../views/LoginView.vue'),
     },
     {
       path: '/admin/usuarios',
       name: 'admin-users',
       component: () => import('@/views/AdminUsersView.vue'),
     },
-    // ==========================================
-    // ¡AÑADE ESTA NUEVA RUTA AQUÍ ABAJO!
-    // ==========================================
     {
       path: '/admin/destacados',
       name: 'admin-featured',
       component: () => import('@/views/AdminFeaturedView.vue'),
-    }
+    },
   ],
 })
 
