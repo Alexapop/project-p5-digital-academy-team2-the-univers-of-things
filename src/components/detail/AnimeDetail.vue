@@ -17,7 +17,7 @@ const displayedGenres = (genres) => {
 <template>
 
     <div class="container">
-        <router-link :to="'/'" class="volver-catalogo">← Volver al catálogo</router-link><br>
+        <router-link :to="'/'" class="volver-catalogo">← Volver al catálogo</router-link>
         <img :src="anime.images.jpg.image_url" class="card-img-top shadow" alt="...">
         <div class="card-body">
             <h5 class="card-title">{{anime.title}}</h5>
@@ -90,9 +90,10 @@ h6 {
 }
 
 .volver-catalogo {
-    color: black;
+    color: #8a4fff;
     text-decoration: none;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    display: block;
 }
 
 .volver-catalogo:hover {
