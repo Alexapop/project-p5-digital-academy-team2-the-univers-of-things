@@ -1,23 +1,18 @@
 <script setup>
+import { onMounted } from 'vue'
+import { useAnimeStore } from '@/stores/animeStore'
 import HomeCatalogSearchInput from "./HomeCatalogSearchInput.vue"
 import HomeCatalogGenreFilter from "./HomeCatalogGenreFilter.vue"
 import PaginationHub from "../pagination/PaginationHub.vue"
 import AnimeCard from "../card/AnimeCard.vue"
 
-const animes = [
-  { id: 1 },
-  { id: 2 },
-  { id: 3 },
-  { id: 4 },
-  { id: 5 },
-  { id: 6 },
-  { id: 7 },
-  { id: 8 },
-  { id: 9 },
-  { id: 10 },
-  { id: 11 },
-  { id: 12 },
-]
+const animeStore = useAnimeStore()
+
+onMounted(() => {
+  if (animeStore.animes.length === 0) {
+    animeStore.fetchAnimes()
+  }
+})
 </script>
 
 <template>
@@ -36,11 +31,14 @@ const animes = [
       </div>
     </header>
 
-    <div class="home-catalog__grid row row-cols-2 row-cols-lg-4 g-4">
-      <div class="col" v-for="anime in animes" :key="anime.id">
-        <AnimeCard />
-      </div>
-    </div>
+    <div v-if="animeStore.loading" class="text-center py-5">Cargando...</div>
+    <div v-else-if="animeStore.error" class="alert alert-danger">{{ animeStore.error }}</div>
+
+    <div v-else class="d-flex flex-wrap justify-content-center px-4 px-md-5" style="gap: 0.5rem;">
+  <div v-for="anime in animeStore.paginatedAnimes" :key="anime.mal_id" style="width: 18rem;">
+    <AnimeCard :anime="anime" />
+  </div>
+</div>
 
     <PaginationHub />
   </section>
@@ -48,7 +46,7 @@ const animes = [
 
 <style lang="scss" scoped>
 .home-catalog {
-  margin-top: clamp(120px, 35vh, 280px);
+  margin-top: 60px;
   padding-bottom: 48px;
 
   &__header {
@@ -81,7 +79,7 @@ const animes = [
     }
 
     :deep(> div) {
-      width: 320px;
+      width: auto;
       max-width: 320px;
     }
 

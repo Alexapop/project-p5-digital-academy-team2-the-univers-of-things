@@ -24,6 +24,11 @@ const router = createRouter({
       name: 'admin-featured',
       component: () => import('@/views/AdminFeaturedView.vue'),
     },
+    {
+      path: '/anime/:id',
+      name: 'anime-detail',
+      component: () => import('@/views/DetailView.vue')
+    },
   ],
 })
 

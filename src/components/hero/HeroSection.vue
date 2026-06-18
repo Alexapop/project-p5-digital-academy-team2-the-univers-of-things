@@ -23,7 +23,8 @@ import AnimeCard from '../card/AnimeCard.vue'
       <WeeklyBadge />
       
       <div class="weekly-card-slot">
-        <AnimeCard />
+        <AnimeCard v-if="topAnime" :anime="topAnime" />
+        <div v-else class="text-center text-muted">Cargando...</div>
       </div>
     </div>
   </section>
