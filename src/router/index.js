@@ -12,6 +12,7 @@ const router = createRouter({
     {
       path: '/login', 
       name: 'login',
+<<<<<<< HEAD
       component: () => import('../views/LoginView.vue'),
     },
     {
@@ -24,6 +25,17 @@ const router = createRouter({
       name: 'admin-featured',
       component: () => import('@/views/AdminFeaturedView.vue'),
     },
+=======
+      component: LoginView,
+    },
+
+    {
+      path: '/anime/:id',
+      name: 'anime-detail',
+      component: () => import('@/views/DetailView.vue')
+    }
+    
+>>>>>>> feat/api-integration
   ],
 })
 

@@ -1,26 +1,34 @@
 <script setup>
 import FavoriteButton from '/src/components/card/FavoriteButton.vue';
 
+defineProps({
+  anime: {
+    type: Object,
+    required: true
+  }
+})
+
+const displayedGenres = (genres) => {
+  if (!genres) return []
+  return genres.slice(0, 3)
+}
 </script>
 
 <template>
 
     <div class="container">
-        <a href="..." class="volver-catalogo">← Volver al catálogo</a><br>
-        <img src="/src/assets/19644l.webp" class="card-img-top" alt="...">
-        <div>
-            <h5 class="card-title">Cowboy Bebop</h5>
+        <router-link :to="'/'" class="volver-catalogo">← Volver al catálogo</router-link><br>
+        <img :src="anime.images.jpg.image_url" class="card-img-top shadow" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{anime.title}}</h5>
             <div class="card-buttons">
-                <h6 class="card-title">⭐ 8.75</h6>
+                <h6 class="card-title">⭐ {{anime.score}}</h6>
                 <FavoriteButton />
             </div>
-            <ul class="genres">
-                <li>Action</li>
-                <li>Award Winning</li>
-                <li>Sci-Fi</li>
+            <ul class="genres flex-wrap overflow-hidden" style="max-height: 2rem; line-height: 1.5;">
+                <li v-for="genre in displayedGenres(anime.genres)" :key="genre.name">{{ genre.name }}</li>
             </ul>
-            <h6>Synopsis</h6>
-            <p class="card-text">Crime is timeless. By the year 2071, humanity has expanded across the galaxy, filling the surface of other planets with settlements like those on Earth. These new societies are plagued by murder, drug use, and theft, and intergalactic outlaws are hunted by a growing number of tough bounty hunters.\n\nSpike Spiegel and Jet Black pursue criminals throughout space to make a humble living. Beneath his goofy and aloof demeanor, Spike is haunted by the weight of his violent past. Meanwhile, Jet manages his own troubled memories while taking care of Spike and the Bebop, their ship. The duo is joined by the beautiful con artist Faye Valentine, odd child Edward Wong Hau Pepelu Tivrusky IV, and Ein, a bioengineered Welsh corgi.\n\nWhile developing bonds and working to catch a colorful cast of criminals, the Bebop crew's lives are disrupted by a menace from Spike's past. As a rival's maniacal plot continues to unravel, Spike must choose between life with his newfound family or revenge for his old wounds.</p>
+            <p class="card-text">{{anime.synopsis}}</p>            
         </div>
     </div>
 
@@ -32,6 +40,8 @@ import FavoriteButton from '/src/components/card/FavoriteButton.vue';
 
 .container {
     width: 50%;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 img {
@@ -91,5 +101,11 @@ h6 {
 
 .volver-catalogo:visited {
     text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 80%;
+    }
 }
 </style>

@@ -1,26 +1,37 @@
 <script setup>
 import FavoriteButton from './FavoriteButton.vue';
+<<<<<<< HEAD
+=======
+
+defineProps({
+  anime: {
+    type: Object,
+    required: true
+  }
+})
+
+const displayedGenres = (genres) => {
+  if (!genres) return []
+  return genres.slice(0, 3)
+}
+>>>>>>> feat/api-integration
 
 </script>
 
 <template>
 
     <div class="card shadow" style="width: 18rem;">
-        <img src="/src/assets/19644l.webp" class="card-img-top" alt="...">
+        <img :src="anime.images.jpg.image_url" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title">Cowboy Bebop</h5>
-            <h6 class="card-title">⭐ 8.75</h6>
-            <ul class="genres">
-                <li>Action</li>
-                <li>Award Winning</li>
-                <li>Sci-Fi</li>
+            <h5 class="card-title">{{anime.title}}</h5>
+            <h6 class="card-title">⭐ {{anime.score}}</h6>
+            <ul class="genres flex-wrap overflow-hidden" style="max-height: 2rem; line-height: 1.5;">
+                <li v-for="genre in displayedGenres(anime.genres)" :key="genre.name">{{ genre.name }}</li>
             </ul>
-            <p class="card-text">Crime is timeless. By the year 2071, humanity has expanded across the galaxy, filling
-                the surface of other planets with sett…unravel, Spike must choose between life with his newfound family
-                or revenge for his old wounds.</p>
+            <p class="card-text">{{anime.synopsis}}</p>
             <div class="card-buttons">
-                <a href="" class="btn btn-primary">See more</a>
-                <FavoriteButton />                
+                <router-link :to="'/anime/' + anime.mal_id" class="btn btn-primary">See more</router-link>
+                <FavoriteButton />
             </div>
         </div>
     </div>
@@ -48,12 +59,22 @@ img {
     color: rgb(103, 110, 110);
 }
 
+.card-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .genres {
     list-style-type: none;
     margin: 0px;
+    margin-bottom: 10px;
     padding: 0px;
     display: flex;
     font-size: 12px;
+    
 }
 
 .genres li {
@@ -63,6 +84,7 @@ img {
     margin-bottom: 5px;
     border-radius: 2rem;
     font-weight: bold;
+    
 }
 
 .card-buttons {
