@@ -51,6 +51,8 @@ onMounted(() => {
 
   &__header {
     margin-bottom: 32px;
+    margin-left: 100px;
+    margin-right: 100px;
   }
 
   &__title {
@@ -109,15 +111,19 @@ onMounted(() => {
 
     &__header {
       margin-bottom: 24px;
+      margin-left: 0px;
+      margin-right: 0px;
     }
 
     &__title {
       h2 {
         font-size: 30px;
+        text-align: center;
       }
 
       p {
         font-size: 16px;
+        text-align: center;
       }
     }
 
