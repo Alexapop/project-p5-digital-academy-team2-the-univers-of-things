@@ -1,8 +1,11 @@
 <script setup>
-import { ref } from "vue";
 import searchIcon from "@/assets/home-catalog/home-search-input-icon.png";
 
-const text = ref("");
+const text = defineModel({
+  type:String,
+  default:''
+})
+
 </script>
 
 <template>
