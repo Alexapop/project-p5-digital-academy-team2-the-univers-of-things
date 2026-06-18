@@ -5,5 +5,12 @@ export const animeService = {
         const response = await fetch(`${API_URL}/anime`)
         const data = await response.json()
         return data.data
+    },
+
+    async getAnimeById(id) {
+    const response = await fetch(`${API_URL}/anime/${id}`)
+    const data = await response.json()
+    return data.data
     }
 }
+

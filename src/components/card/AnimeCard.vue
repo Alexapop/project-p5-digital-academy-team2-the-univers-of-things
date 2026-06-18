@@ -27,7 +27,7 @@ const displayedGenres = (genres) => {
             </ul>
             <p class="card-text">{{anime.synopsis}}</p>
             <div class="card-buttons">
-                <a href="" class="btn btn-primary">See more</a>
+                <router-link :to="'/anime/' + anime.mal_id" class="btn btn-primary">See more</router-link>
                 <FavoriteButton />
             </div>
         </div>
@@ -58,7 +58,7 @@ img {
 
 .card-title {
     display: -webkit-box;
-    line-clamp: 1;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;

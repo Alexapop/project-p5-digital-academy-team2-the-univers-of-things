@@ -15,7 +15,14 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView,
+    },
+
+    {
+      path: '/anime/:id',
+      name: 'anime-detail',
+      component: () => import('@/views/DetailView.vue')
     }
+    
   ],
 })
 
