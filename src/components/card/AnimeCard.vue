@@ -12,32 +12,37 @@ const displayedGenres = (genres) => {
   if (!genres) return []
   return genres.slice(0, 3)
 }
-
 </script>
 
 <template>
-
-    <div class="card shadow" style="width: 18rem;">
-        <img :src="anime.images.jpg.image_url" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">{{anime.title}}</h5>
-            <h6 class="card-title">⭐ {{anime.score}}</h6>
-            <ul class="genres flex-wrap overflow-hidden" style="max-height: 2rem; line-height: 1.5;">
-                <li v-for="genre in displayedGenres(anime.genres)" :key="genre.name">{{ genre.name }}</li>
-            </ul>
-            <p class="card-text">{{anime.synopsis}}</p>
-            <div class="card-buttons">
-                <router-link :to="'/anime/' + anime.mal_id" class="btn btn-primary">See more</router-link>
-                <FavoriteButton />
-            </div>
-        </div>
+  <div class="card shadow" style="width: 18rem;">
+    <img 
+      :src="anime?.images?.jpg?.image_url || anime?.image_url || 'https://via.placeholder.com/260x400?text=No+Image'" 
+      class="card-img-top" 
+      alt="Anime Poster"
+    >
+    <div class="card-body">
+      <h5 class="card-title">{{ anime?.title || 'Sin título' }}</h5>
+      <h6 class="card-title">⭐ {{ anime?.score || 'N/A' }}</h6>
+      
+      <ul class="genres flex-wrap overflow-hidden" style="max-height: 2rem; line-height: 1.5;">
+        <li v-for="genre in displayedGenres(anime?.genres)" :key="genre.name">
+          {{ genre.name }}
+        </li>
+      </ul>
+      
+      <p class="card-text">{{ anime?.synopsis || 'Sin sinopsis disponible.' }}</p>
+      
+      <div class="card-buttons">
+        <router-link :to="'/anime/' + anime?.mal_id" class="btn btn-primary">See more</router-link>
+        <FavoriteButton />
+      </div>
     </div>
-
-    <main>
-    </main>
+  </div>
 </template>
 
 <style scoped>
+/* Los estilos de tu compañero se quedan EXACTAMENTE igual */
 .card {
     border-radius: 1rem;
 }
@@ -49,7 +54,6 @@ img {
 }
 
 .card-text {
-
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -71,7 +75,6 @@ img {
     padding: 0px;
     display: flex;
     font-size: 12px;
-    
 }
 
 .genres li {
@@ -81,7 +84,6 @@ img {
     margin-bottom: 5px;
     border-radius: 2rem;
     font-weight: bold;
-    
 }
 
 .card-buttons {
