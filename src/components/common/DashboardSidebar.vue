@@ -1,5 +1,8 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+
+// Inicializamos el enrutador para poder redirigir al usuario
+const router = useRouter()
 
 // Definimos las props con valores por defecto por si acaso
 defineProps({
@@ -12,7 +15,6 @@ defineProps({
     required: true,
     // Estructura esperada: [{ to: '/ruta', label: 'Texto', icon: 'bi-person' }]
   },
-  // Añadimos datos del usuario dinámicos para que no salga siempre "Akira Admin"
   userData: {
     type: Object,
     default: () => ({
@@ -22,6 +24,13 @@ defineProps({
     })
   }
 })
+
+// Función para ejecutar el cierre de sesión
+const logout = () => {
+  // Nota: Aquí es donde más adelante borrarás los tokens de autenticación o limpiarás Pinia
+  alert('Cerrando sesión...')
+  router.push('/') // Te redirige automáticamente a la Home
+}
 </script>
 
 <template>
@@ -69,7 +78,8 @@ defineProps({
           <small class="text-muted d-block" style="font-size: 0.8rem;">{{ userData.email }}</small>
         </div>
       </div>
-      <button class="btn-logout d-flex align-items-center gap-3 bg-transparent border-0 p-0 text-start">
+      
+      <button @click="logout" class="btn-logout d-flex align-items-center gap-3 bg-transparent border-0 p-0 text-start">
         <i class="bi bi-box-arrow-left fs-5"></i>
         <span class="small fw-semibold">Cerrar sesión</span>
       </button>
@@ -78,7 +88,6 @@ defineProps({
 </template>
 
 <style lang="scss" scoped>
-/* Los estilos se quedan exactamente iguales a los tuyos */
 .admin-sidebar {
   width: 260px;
   background-color: #0c0f17;
@@ -130,6 +139,7 @@ defineProps({
 .btn-logout {
   color: #949aae;
   transition: color 0.2s ease;
+  cursor: pointer;
   &:hover { color: #ffffff; }
 }
 .avatar-admin-fallback {
