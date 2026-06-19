@@ -27,7 +27,12 @@ const router = createRouter({
     {
       path: '/anime/:id',
       name: 'anime-detail',
-      component: () => import('@/views/DetailView.vue')
+      component: () => import('@/views/DetailView.vue'),
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('@/views/RegisterView.vue'),
     },
   ],
 })

@@ -34,6 +34,26 @@ export const useAuthStore = defineStore('auth', () => {
 
         return currentUser.value
     }
+
+    function register(name, email, password) {
+        const userExists = users.value.some((user) => {
+            return user.email === email
+        })
+
+        if (userExists) {
+            return false
+        }
+
+        users.value.push({
+            name,
+            email,
+            password,
+            role: 'customer',
+            avatar: '',
+        })
+
+        return true
+    }
     
-    return { users, currentUser, login }
+    return { users, currentUser, login, register }
 })
