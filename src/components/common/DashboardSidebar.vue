@@ -132,16 +132,24 @@ const logout = () => {
   color: #949aae;
   text-decoration: none;
   transition: all 0.2s ease;
+  
+  // 🔥 ESTO ASEGURA QUE SE VEA EN LÍNEA TANTO PARA EL ADMIN COMO PARA EL USUARIO
+  display: flex;
+  align-items: center;
+  white-space: nowrap; 
+
   &:hover {
     color: #ffffff;
     background-color: rgba(255, 255, 255, 0.02);
   }
+  
   &.router-link-exact-active {
     background-color: #161b26;
     color: #b766f2 !important;
     i { color: #b766f2; }
   }
 }
+
 .btn-logout {
   color: #949aae;
   transition: color 0.2s ease;

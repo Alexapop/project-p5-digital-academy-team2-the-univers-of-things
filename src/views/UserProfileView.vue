@@ -1,11 +1,12 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import { RouterLink } from 'vue-router'
 import DashboardSidebar from '@/components/common/DashboardSidebar.vue'
-import { useAuthStore } from '@/stores/auth' // 1. Importamos el store
+import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
 
-// Variables reactivas locales para enlazar los campos del formulario
+// Variables reactivas locales
 const name = ref('')
 const email = ref('')
 const passwordActual = ref('')
@@ -13,7 +14,7 @@ const passwordNueva = ref('')
 const passwordConfirmar = ref('')
 const avatarSeleccionado = ref('https://api.dicebear.com/7.x/bottts/svg?seed=green')
 
-// 2. Al cargar la pantalla, rellenamos tus inputs con los datos de quien haya iniciado sesión
+// Cargar datos de la sesión activa
 onMounted(() => {
   if (authStore.currentUser) {
     name.value = authStore.currentUser.name || 'Sora Tanaka'
@@ -22,13 +23,13 @@ onMounted(() => {
   }
 })
 
-// 3. Calculamos de forma dinámica el fallback (iniciales) para el Sidebar
+// Iniciales dinámicas para el avatar fallback
 const userFallback = computed(() => {
   if (!name.value) return 'ST'
   return name.value.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
 })
 
-// Lista de avatares disponibles
+// Lista de avatares robot
 const avatars = ref([
   { id: 1, url: 'https://api.dicebear.com/7.x/bottts/svg?seed=1' },
   { id: 2, url: 'https://api.dicebear.com/7.x/bottts/svg?seed=2' },
@@ -40,16 +41,17 @@ const avatars = ref([
   { id: 8, url: 'https://api.dicebear.com/7.x/bottts/svg?seed=8' }
 ])
 
-// 4. Acción de guardar datos personales y avatar unidos
+
 const guardarDatos = () => {
   authStore.updateProfile(name.value, null, avatarSeleccionado.value)
   alert('¡Datos personales y avatar actualizados con éxito!')
 }
 
-// 5. Acción para actualizar la contraseña de forma segura
+
 const actualizarContrasena = () => {
-  // Buscamos la contraseña real en la lista simulada para comprobar
+
   const userInList = authStore.users.find(u => u.email === email.value)
+
 
   if (userInList && passwordActual.value !== userInList.password) {
     alert('La contraseña actual no es correcta.')
@@ -66,10 +68,10 @@ const actualizarContrasena = () => {
     return
   }
 
-  // Guardamos la nueva contraseña en el Store
+
   authStore.updateProfile(null, passwordNueva.value, null)
-  
-  // Limpiamos los inputs del formulario
+
+
   passwordActual.value = ''
   passwordNueva.value = ''
   passwordConfirmar.value = ''
@@ -85,7 +87,7 @@ const seleccionarAvatar = (url) => {
 <template>
   <div class="user-dashboard d-flex">
     <DashboardSidebar 
-      title="MI DASHBOARD"
+      title="DASHBOARD"
       :links="[
         { to: '/dashboard/favoritos', label: 'Favoritos', icon: 'bi-heart' },
         { to: '/dashboard/perfil', label: 'Perfil', icon: 'bi-person-fill' }
