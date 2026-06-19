@@ -20,16 +20,16 @@ defineProps({
     default: () => ({
       name: 'Sora Tanaka',
       email: 'user@otakuhub.dev',
-      fallback: 'ST'
+      fallback: 'ST',
+      avatar: '' // Añadido por defecto
     })
   }
 })
 
-// Función para ejecutar el cierre de sesión
+
 const logout = () => {
   // Nota: Aquí es donde más adelante borrarás los tokens de autenticación o limpiarás Pinia
-  alert('Cerrando sesión...')
-  router.push('/') // Te redirige automáticamente a la Home
+  router.push('/') // Te redirige automáticamente a la Home sin ventanas emergentes
 }
 </script>
 
@@ -70,9 +70,15 @@ const logout = () => {
 
     <div class="sidebar-footer">
       <div class="d-flex align-items-center gap-3 mb-3">
-        <div class="avatar-admin-fallback d-flex align-items-center justify-content-center rounded-circle fw-bold text-white shadow-sm">
+        
+        <div v-if="userData.avatar" class="avatar-admin-image rounded-circle overflow-hidden shadow-sm">
+          <img :src="userData.avatar" alt="Avatar usuario" class="w-100 h-100" style="object-fit: cover;" />
+        </div>
+        
+        <div v-else class="avatar-admin-fallback d-flex align-items-center justify-content-center rounded-circle fw-bold text-white shadow-sm">
           {{ userData.fallback }}
         </div>
+        
         <div>
           <p class="m-0 fw-bold small text-white">{{ userData.name }}</p>
           <small class="text-muted d-block" style="font-size: 0.8rem;">{{ userData.email }}</small>
@@ -142,6 +148,17 @@ const logout = () => {
   cursor: pointer;
   &:hover { color: #ffffff; }
 }
+
+// 🔥 CLASE NUEVA PARA ESTILIZAR EL CONTENEDOR DEL ROBOT AVATAR 🔥
+.avatar-admin-image {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  background-color: #f8fafc;
+  padding: 2px;
+}
+
 .avatar-admin-fallback {
   width: 42px;
   height: 42px;

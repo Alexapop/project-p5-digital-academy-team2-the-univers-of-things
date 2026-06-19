@@ -1,15 +1,32 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import DashboardSidebar from '@/components/common/DashboardSidebar.vue'
+import { useAuthStore } from '@/stores/auth' // 1. Importamos el store
 
-// Variables reactivas simuladas
-const name = ref('Sora Tanaka')
-const email = ref('user@otakuhub.dev')
+const authStore = useAuthStore()
 
-// Variables para el cambio de contraseña
+// Variables reactivas locales para enlazar los campos del formulario
+const name = ref('')
+const email = ref('')
 const passwordActual = ref('')
 const passwordNueva = ref('')
 const passwordConfirmar = ref('')
+const avatarSeleccionado = ref('https://api.dicebear.com/7.x/bottts/svg?seed=green')
+
+// 2. Al cargar la pantalla, rellenamos tus inputs con los datos de quien haya iniciado sesión
+onMounted(() => {
+  if (authStore.currentUser) {
+    name.value = authStore.currentUser.name || 'Sora Tanaka'
+    email.value = authStore.currentUser.email
+    avatarSeleccionado.value = authStore.currentUser.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=green'
+  }
+})
+
+// 3. Calculamos de forma dinámica el fallback (iniciales) para el Sidebar
+const userFallback = computed(() => {
+  if (!name.value) return 'ST'
+  return name.value.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
+})
 
 // Lista de avatares disponibles
 const avatars = ref([
@@ -23,14 +40,41 @@ const avatars = ref([
   { id: 8, url: 'https://api.dicebear.com/7.x/bottts/svg?seed=8' }
 ])
 
-const avatarSeleccionado = ref('https://api.dicebear.com/7.x/bottts/svg?seed=green')
-
+// 4. Acción de guardar datos personales y avatar unidos
 const guardarDatos = () => {
-  alert('Datos personales guardados.')
+  authStore.updateProfile(name.value, null, avatarSeleccionado.value)
+  alert('¡Datos personales y avatar actualizados con éxito!')
 }
 
+// 5. Acción para actualizar la contraseña de forma segura
 const actualizarContrasena = () => {
-  alert('Contraseña actualizada.')
+  // Buscamos la contraseña real en la lista simulada para comprobar
+  const userInList = authStore.users.find(u => u.email === email.value)
+
+  if (userInList && passwordActual.value !== userInList.password) {
+    alert('La contraseña actual no es correcta.')
+    return
+  }
+
+  if (passwordNueva.value.length < 6) {
+    alert('La nueva contraseña debe tener al menos 6 caracteres.')
+    return
+  }
+
+  if (passwordNueva.value !== passwordConfirmar.value) {
+    alert('Las contraseñas nuevas no coinciden.')
+    return
+  }
+
+  // Guardamos la nueva contraseña en el Store
+  authStore.updateProfile(null, passwordNueva.value, null)
+  
+  // Limpiamos los inputs del formulario
+  passwordActual.value = ''
+  passwordNueva.value = ''
+  passwordConfirmar.value = ''
+  
+  alert('¡Contraseña actualizada correctamente!')
 }
 
 const seleccionarAvatar = (url) => {
@@ -46,7 +90,7 @@ const seleccionarAvatar = (url) => {
         { to: '/dashboard/favoritos', label: 'Favoritos', icon: 'bi-heart' },
         { to: '/dashboard/perfil', label: 'Perfil', icon: 'bi-person-fill' }
       ]"
-      :userData="{ name: name, email: email, fallback: 'ST' }"
+      :userData="{ name: name, email: email, fallback: userFallback, avatar: avatarSeleccionado }"
     />
 
     <div class="main-wrapper d-flex flex-column flex-grow-1">
@@ -76,7 +120,7 @@ const seleccionarAvatar = (url) => {
                 </div>
                 <div class="mb-4">
                   <label class="form-label text-muted small fw-semibold">Email</label>
-                  <input v-model="email" type="email" class="form-control custom-input py-2.5 px-3" required />
+                  <input v-model="email" type="email" class="form-control custom-input py-2.5 px-3" required disabled />
                 </div>
                 <button type="submit" class="btn btn-purple px-4 py-2 fw-semibold rounded-3">
                   Guardar cambios
@@ -134,7 +178,7 @@ const seleccionarAvatar = (url) => {
                 </div>
               </div>
 
-              <button class="btn btn-outline-light-custom w-100 py-2 rounded-3 text-secondary-custom small fw-semibold">
+              <button @click="guardarDatos" type="button" class="btn btn-outline-light-custom w-100 py-2 rounded-3 text-secondary-custom small fw-semibold">
                 <i class="bi bi-upload me-2"></i>Guardar avatar
               </button>
             </div>
