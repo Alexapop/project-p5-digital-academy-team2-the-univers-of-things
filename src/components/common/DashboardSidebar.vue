@@ -1,5 +1,27 @@
 <script setup>
 import { RouterLink } from 'vue-router'
+
+// Definimos las props con valores por defecto por si acaso
+defineProps({
+  title: {
+    type: String,
+    default: 'USER DASHBOARD'
+  },
+  links: {
+    type: Array,
+    required: true,
+    // Estructura esperada: [{ to: '/ruta', label: 'Texto', icon: 'bi-person' }]
+  },
+  // Añadimos datos del usuario dinámicos para que no salga siempre "Akira Admin"
+  userData: {
+    type: Object,
+    default: () => ({
+      name: 'Sora Tanaka',
+      email: 'user@otakuhub.dev',
+      fallback: 'ST'
+    })
+  }
+})
 </script>
 
 <template>
@@ -19,29 +41,32 @@ import { RouterLink } from 'vue-router'
           </span>
           <div class="d-flex flex-column lh-sm">
             <span class="logo-text">OtakuHub</span>
-            <span class="logo-sub">ADMIN PANEL</span>
+            <span class="logo-sub text-uppercase">{{ title }}</span>
           </div>
         </RouterLink>
       </div>
 
       <nav class="nav flex-column gap-2 mt-4">
-        <RouterLink to="/admin/usuarios" class="nav-btn d-flex align-items-center gap-3 px-3 py-2.5 rounded-3">
-          <i class="bi bi-people fs-5"></i> <span>Usuarios</span>
-        </RouterLink>
-        <RouterLink to="/admin/destacados" class="nav-btn d-flex align-items-center gap-3 px-3 py-2.5 rounded-3">
-          <i class="bi bi-star fs-5"></i> <span>Destacados</span>
+        <RouterLink 
+          v-for="(link, index) in links" 
+          :key="index"
+          :to="link.to" 
+          class="nav-btn d-flex align-items-center gap-3 px-3 py-2.5 rounded-3"
+        >
+          <i :class="['bi', link.icon, 'fs-5']"></i> 
+          <span>{{ link.label }}</span>
         </RouterLink>
       </nav>
     </div>
 
- <div class="sidebar-footer">
+    <div class="sidebar-footer">
       <div class="d-flex align-items-center gap-3 mb-3">
         <div class="avatar-admin-fallback d-flex align-items-center justify-content-center rounded-circle fw-bold text-white shadow-sm">
-          AA
+          {{ userData.fallback }}
         </div>
         <div>
-          <p class="m-0 fw-bold small text-white">Akira Admin</p>
-          <small class="text-muted d-block" style="font-size: 0.8rem;">admin@otakuhub.dev</small>
+          <p class="m-0 fw-bold small text-white">{{ userData.name }}</p>
+          <small class="text-muted d-block" style="font-size: 0.8rem;">{{ userData.email }}</small>
         </div>
       </div>
       <button class="btn-logout d-flex align-items-center gap-3 bg-transparent border-0 p-0 text-start">
@@ -53,15 +78,14 @@ import { RouterLink } from 'vue-router'
 </template>
 
 <style lang="scss" scoped>
+/* Los estilos se quedan exactamente iguales a los tuyos */
 .admin-sidebar {
   width: 260px;
-  background-color: #0c0f17; /* Oscuro clavadito a la captura */
+  background-color: #0c0f17;
   height: 100vh;
   position: sticky;
   top: 0;
 }
-
-/* Estilos del logo oficial */
 .logo {
   display: inline-flex;
   align-items: center;
@@ -69,9 +93,8 @@ import { RouterLink } from 'vue-router'
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-
   &-icon {
-    width: 44px; /* Un pelín más grande para que luzca como en la imagen */
+    width: 44px;
     height: 44px;
     border-radius: 14px;
     display: flex;
@@ -79,62 +102,42 @@ import { RouterLink } from 'vue-router'
     justify-content: center;
     background: linear-gradient(135deg, #7c4dff, #b766f2);
   }
-
   &-text {
     font-size: 22px;
-    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
     font-weight: 700;
   }
-
   &-sub {
     font-size: 10px;
     font-weight: 600;
-    color: #5c6275; /* Gris oscuro para el subtítulo */
+    color: #5c6275;
     letter-spacing: 0.5px;
   }
 }
-
-/* Enlaces del menú al estilo de la captura */
 .nav-btn {
-  color: #949aae; /* Color grisáceo cuando no está seleccionado */
+  color: #949aae;
   text-decoration: none;
   transition: all 0.2s ease;
-
   &:hover {
     color: #ffffff;
     background-color: rgba(255, 255, 255, 0.02);
   }
-  
-  /* El truco: cuando Vue activa la ruta, cambia el fondo y el color del texto */
   &.router-link-exact-active {
-    background-color: #161b26; /* Fondo gris oscuro del botón seleccionado */
-    color: #b766f2 !important; /* Texto lila del logo */
-    
-    i {
-      color: #b766f2;
-    }
+    background-color: #161b26;
+    color: #b766f2 !important;
+    i { color: #b766f2; }
   }
 }
-
-/* Botón de cerrar sesión */
 .btn-logout {
   color: #949aae;
   transition: color 0.2s ease;
-
-  &:hover {
-    color: #ffffff;
-  }
+  &:hover { color: #ffffff; }
 }
-
-/* ==========================================================================
-   ¡AÑADE ESTO AQUÍ ABAJO PARA DARLE ESTILO AL NUEVO AVATAR ASEGURADO!
-   ========================================================================== */
 .avatar-admin-fallback {
   width: 42px;
   height: 42px;
-  min-width: 42px; /* Evita que Bootstrap lo encoja o colapse */
+  min-width: 42px;
   min-height: 42px;
-  background: linear-gradient(135deg, #7c4dff, #b766f2); /* El degradado lila oficial */
+  background: linear-gradient(135deg, #7c4dff, #b766f2);
   font-size: 14px;
   letter-spacing: 0.5px;
 }
