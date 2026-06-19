@@ -2,6 +2,12 @@
 import LoginButton from '../login/LoginButton.vue'
 import WeeklyBadge from './WeeklyBadge.vue'
 import AnimeCard from '../card/AnimeCard.vue'
+
+// Importamos el store de administración de Pinia
+import { useAdminStore } from '@/stores/admin'
+
+// Instanciamos el store para poder usarlo en el template
+const adminStore = useAdminStore()
 </script>
 
 <template>
@@ -11,7 +17,7 @@ import AnimeCard from '../card/AnimeCard.vue'
         Tu universo <span class="hero__title--highlight">anime</span>,<br>organizado.
       </h1>
       <p class="hero__description">
-        Explora miles de series, guarda tus favoritas y valora cada una en tu propio dashboard.
+        Explora miles de series, guarda tus favoritas and valora cada una en tu propio dashboard.
       </p>
       
       <div class="hero__actions">
@@ -23,8 +29,11 @@ import AnimeCard from '../card/AnimeCard.vue'
       <WeeklyBadge />
       
       <div class="weekly-card-slot">
-        <AnimeCard v-if="topAnime" :anime="topAnime" />
-        <div v-else class="text-center text-muted">Cargando...</div>
+        <AnimeCard v-if="adminStore.weeklyAnime" :anime="adminStore.weeklyAnime" />
+        
+        <div v-else class="text-center text-muted">
+          ¡Selección disponible próximamente!
+        </div>
       </div>
     </div>
   </section>
@@ -36,7 +45,9 @@ import AnimeCard from '../card/AnimeCard.vue'
   justify-content: space-between;
   align-items: center;
   padding: 4rem 2rem;
-  background-color: #fafdff; 
+  background-color: #fafdff;
+  margin-left: 100px;
+  margin-right: 100px;
 
   &__content {
     max-width: 50%;
@@ -48,7 +59,7 @@ import AnimeCard from '../card/AnimeCard.vue'
     font-weight: 700;
 
     &--highlight {
-      color: #8a4fff; // El morado corporativo
+      color: #8a4fff; 
     }
   }
 
@@ -67,23 +78,42 @@ import AnimeCard from '../card/AnimeCard.vue'
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 350px; // El ancho de la tarjeta según el diseño
+    width: 350px; 
   }
 }
 
 .weekly-card-slot {
   width: 100%;
-  min-height: 400px; // El espacio que ocupará la foto de Frieren
+  min-height: 400px; 
   background: #ffffff;
   border: 1px solid #eaeaea;
-  border-top: none; // Para que encaje perfectamente con el borde inferior del cartel
+  border-top: none; 
   border-radius: 0 0 8px 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-
-  // 🔥 Cambios aplicados para centrar la tarjeta de Hanna:
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem;
+}
+
+@media (max-width: 767.98px) {
+  .hero {
+    flex-direction: column;
+    margin: 0px;
+
+    &__content {
+      max-width: 100%;
+      text-align: center;
+    }
+
+    &__actions {
+      justify-content: center;
+    }
+
+    &__featured {
+      margin-top: 30px;
+    }
+
+  }
 }
 </style>

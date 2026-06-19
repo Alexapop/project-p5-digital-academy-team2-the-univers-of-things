@@ -34,6 +34,12 @@ const router = createRouter({
       name: 'register',
       component: () => import('@/views/RegisterView.vue'),
     },
+    // 👤 Añadimos tu nueva ruta para el panel de usuario
+    {
+      path: '/dashboard/perfil',
+      name: 'user-profile',
+      component: () => import('@/views/UserProfileView.vue')
+    },
   ],
 })
 
