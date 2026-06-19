@@ -41,7 +41,8 @@ async function login() {
             return
         }
         
-        const redirectPath = route.query.redirect || '/'
+        // Si no viene de ninguna redirección forzada, mándalo directo al perfil del dashboard
+        const redirectPath = route.query.redirect || '/dashboard/perfil'
         router.push(redirectPath)
         return
     }

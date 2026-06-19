@@ -1,5 +1,5 @@
 <script setup>
-import AdminSidebar from '@/components/admin/AdminSidebar.vue'
+import DashboardSidebar from '@/components/common/DashboardSidebar.vue'
 import AdminFeaturedManager from '@/components/admin/AdminFeaturedManager.vue'
 </script>
 
