@@ -42,6 +42,26 @@ export const useAuthStore = defineStore('auth', () => {
         return currentUser.value
     }
 
+    function register(name, email, password) {
+        const userExists = users.value.some((user) => {
+            return user.email === email
+        })
+
+        if (userExists) {
+            return false
+        }
+
+        users.value.push({
+            name,
+            email,
+            password,
+            role: 'customer',
+            avatar: '',
+        })
+
+        return true
+    }
+
     // 🔥 ESTA ES LA FUNCIÓN NUEVA QUE TENÉIS QUE AÑADIR 🔥
     function updateProfile(newName, newPassword, newAvatar) {
         if (!currentUser.value) return
@@ -62,5 +82,5 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     // Acuérdate de añadir 'updateProfile' al return al final del archivo
-    return { users, currentUser, login, updateProfile }
+    return { users, currentUser, login, register, updateProfile }
 })

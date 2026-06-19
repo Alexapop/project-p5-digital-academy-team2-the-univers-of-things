@@ -2,7 +2,7 @@
 import LogoComponent from '@/components/logo/LogoComponent.vue'
 import { useAuthStore } from '@/stores/auth'
 import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 
 const email = ref('')
 const password = ref('')
@@ -79,6 +79,11 @@ async function login() {
                 </p>
 
                 <button type="submit">Entrar</button>
+
+                <p class="login-form-register">
+                    ¿No tienes cuenta?
+                    <RouterLink to="/register">Regístrate</RouterLink>
+                </p>
                 
             </form>
         </section>
@@ -182,6 +187,17 @@ async function login() {
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
+        }
+
+        p.login-form-register {
+            margin-top: 24px;
+            text-align: center;
+
+            a {
+                color: #7c4dff;
+                text-decoration: none;
+                font-weight: 500;
+            }
         }
     }
 
