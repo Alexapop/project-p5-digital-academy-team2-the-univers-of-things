@@ -10,6 +10,7 @@ import AnimeCard from "../card/AnimeCard.vue";
 const animeStore = useAnimeStore();
 const adminStore = useAdminStore();
 const searchText = ref("");
+const selectedGenre = ref("");
 
 onMounted(() => {
   if (animeStore.animes.length === 0) {
@@ -28,16 +29,35 @@ const searchError = computed(() => {
 
 const filteredAnimes = computed(() => {
   const query = searchText.value.trim().toLowerCase();
-  if (query === "") {
-    return animeStore.paginatedAnimes;
-  }
+
   if (searchError.value !== "") {
     return [];
   }
-  return animeStore.animes.filter((anime) =>
-    anime.title.toLowerCase().includes(query),
-  );
+
+  if (query === "" && selectedGenre.value === "") {
+    return animeStore.paginatedAnimes;
+  }
+
+  return animeStore.animes.filter((anime) => {
+    const matchesSearch =
+      query === "" ||
+      anime.title.toLowerCase().includes(query);
+
+    const categories = [
+      ...(anime.genres || []),
+      ...(anime.explicit_genres || []),
+      ...(anime.themes || []),
+      ...(anime.demographics || []),
+    ];
+
+    const matchesGenre =
+      selectedGenre.value === "" ||
+      categories.some((category) => category.name === selectedGenre.value);
+
+    return matchesSearch && matchesGenre;
+  });
 });
+
 </script>
 
 <template>
@@ -56,7 +76,7 @@ const filteredAnimes = computed(() => {
             {{ searchError }}
           </p>
         </div>
-        <HomeCatalogGenreFilter />
+        <HomeCatalogGenreFilter v-model="selectedGenre" />
       </div>
     </header>
 
@@ -67,13 +87,13 @@ const filteredAnimes = computed(() => {
 
     <div
       v-else-if="
-        searchText.trim() !== '' &&
         searchError === '' &&
+        (searchText.trim() !== '' || selectedGenre !== '') &&
         filteredAnimes.length === 0
       "
       class="alert alert-info text-center"
     >
-      No tenemos este anime disponible.
+      No tenemos anime disponible con estos filtros.
     </div>
 
     <div
@@ -90,7 +110,9 @@ const filteredAnimes = computed(() => {
       </div>
     </div>
 
-    <PaginationHub v-if="searchText.trim() === ''" />
+    <PaginationHub
+      v-if="searchText.trim() === '' && selectedGenre === ''"
+    />
   </section>
 </template>
 
