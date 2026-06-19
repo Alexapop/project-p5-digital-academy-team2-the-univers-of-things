@@ -54,8 +54,8 @@ function register() {
         emailError.value = 'Este correo ya está registrado'
         return
     }
-    // Temporary redirect until user dashboard is created
-    router.push('/login')
+
+    router.push('/dashboard/perfil')
 }
 </script>
 

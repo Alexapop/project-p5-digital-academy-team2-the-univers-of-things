@@ -51,15 +51,25 @@ export const useAuthStore = defineStore('auth', () => {
             return false
         }
 
-        users.value.push({
+        const newUser = {
             name,
             email,
             password,
             role: 'customer',
             avatar: '',
-        })
+        }
 
-        return true
+        users.value.push(newUser)
+
+        currentUser.value = {
+            name: newUser.name,
+            email: newUser.email,
+            role: newUser.role,
+            avatar: newUser.avatar,
+            isAuthenticated: true,
+        }
+
+        return currentUser.value
     }
 
     // 🔥 ESTA ES LA FUNCIÓN NUEVA QUE TENÉIS QUE AÑADIR 🔥
