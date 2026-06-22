@@ -1,7 +1,7 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth'
 
-// Traemos la store global
+// Traemos la store global de Pinia
 const authStore = useAuthStore()
 
 // Manejamos el cambio del interruptor de forma limpia
@@ -72,17 +72,16 @@ const alternarAcceso = (email) => {
 </template>
 
 <style lang="scss" scoped>
+
 .users-table-container {
   border-color: #f1f3f7 !important;
 }
 
-.custom-table {
-  thead th {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    color: #949aae;
-  }
+.custom-table thead th {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #949aae;
 }
 
 .avatar-user-fallback {
@@ -94,22 +93,19 @@ const alternarAcceso = (email) => {
   font-size: 14px;
 }
 
-.bg-purple {
-  background-color: #635bff; 
-}
-
+.bg-purple { background-color: #635bff; }
 .badge-status {
   display: inline-block;
   padding: 6px 14px;
   border-radius: 20px;
   font-size: 0.85rem;
-  
+
   &.status-allowed {
     background-color: #f0fdf4;
     color: #16a34a;
     border: 1px solid #bbf7d0;
   }
-  
+
   &.status-restricted {
     background-color: #fef2f2;
     color: #dc2626;
@@ -124,12 +120,12 @@ const alternarAcceso = (email) => {
   background-color: #e2e8f0;
   border-color: #cbd5e1;
   transition: background-color 0.2s ease, border-color 0.2s ease;
-  
+
   &:checked {
     background-color: #7c4dff;
     border-color: #7c4dff;
   }
-  
+
   &:focus {
     box-shadow: 0 0 0 0.25rem rgba(124, 77, 255, 0.15);
   }
