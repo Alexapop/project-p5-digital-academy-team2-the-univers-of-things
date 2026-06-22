@@ -4,18 +4,20 @@ import { defineStore } from 'pinia'
 export const useAuthStore = defineStore('auth', () => {
     const users = ref([
         {
-            name: 'Sora Tanaka', // Le añadimos el nombre por defecto aquí
+            name: 'Sora Tanaka',
             email: 'user@otakuhub.dev',
             password: 'user1234',
             role: 'customer',
-            avatar: '' // Dejamos el espacio para el avatar
+            avatar: '',
+            isBlocked: false // 🔥 Grabado a fuego: Estado por defecto
         },
         {
             name: 'Admin Hub',
             email: 'admin@otakuhub.dev',
             password: 'admin123',
             role: 'admin',
-            avatar: ''
+            avatar: '',
+            isBlocked: false // 🔥 Los admins no suelen empezar bloqueados
         },
     ])
 
@@ -30,7 +32,12 @@ export const useAuthStore = defineStore('auth', () => {
             return false
         }
 
-        // Ahora guardamos TODOS los datos del usuario en la sesión, no solo el email
+        // 🧪 TEST DE BLOQUEO: Si está bloqueado, rechazamos el login de inmediato
+        if (foundUser.isBlocked) {
+            alert('Esta cuenta ha sido bloqueada por el administrador.')
+            return false
+        }
+
         currentUser.value = {
             name: foundUser.name,
             email: foundUser.email,
@@ -57,6 +64,7 @@ export const useAuthStore = defineStore('auth', () => {
             password,
             role: 'customer',
             avatar: '',
+            isBlocked: false // 🔥 Aseguramos que los nuevos registros empiecen activos
         }
 
         users.value.push(newUser)
@@ -72,25 +80,30 @@ export const useAuthStore = defineStore('auth', () => {
         return currentUser.value
     }
 
-    // 🔥 ESTA ES LA FUNCIÓN NUEVA QUE TENÉIS QUE AÑADIR 🔥
     function updateProfile(newName, newPassword, newAvatar) {
         if (!currentUser.value) return
 
-        // 1. Buscamos al usuario real dentro de la lista 'users' por su email
         const userInList = users.value.find(u => u.email === currentUser.value.email)
         
         if (userInList) {
-            // 2. Actualizamos sus datos en la lista global (para cuando vuelva a iniciar sesión)
             if (newName) userInList.name = newName
             if (newPassword) userInList.password = newPassword
             if (newAvatar) userInList.avatar = newAvatar
 
-            // 3. Actualizamos también la sesión activa al momento para que el Sidebar cambie en vivo
             currentUser.value.name = userInList.name
             currentUser.value.avatar = userInList.avatar
         }
     }
 
-    // Acuérdate de añadir 'updateProfile' al return al final del archivo
-    return { users, currentUser, login, register, updateProfile }
+    // 🔥 NUEVA ACCIÓN PARA EL ADMIN: Bloquear / Desbloquear
+    function toggleBlockUser(userIdOrEmail) {
+        // Buscamos por email o name ya que tus usuarios estáticos no tienen ID propio aún
+        const userInList = users.value.find(u => u.email === userIdOrEmail)
+        if (userInList) {
+            userInList.isBlocked = !userInList.isBlocked
+        }
+    }
+
+    // Añadimos toggleBlockUser al return final
+    return { users, currentUser, login, register, updateProfile, toggleBlockUser }
 })
