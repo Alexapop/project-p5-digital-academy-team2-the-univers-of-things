@@ -45,7 +45,7 @@ const adminData = ref({
 
       <footer class="bg-light px-5 py-3 border-top mt-auto">
         <span class="text-muted small">&copy; 2026 OtakuHub &mdash; Panel privado.</span>
-      </header>
+      </footer>
     </div>
   </div>
 </template>
