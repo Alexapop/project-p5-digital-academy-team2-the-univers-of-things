@@ -203,29 +203,46 @@ const filteredAnimes = computed(() => {
 
     &__header {
       flex-direction: column;
+      align-items: center;
       margin-bottom: 24px;
     }
 
     &__title {
+      text-align: center;
+      
       h2 {
         font-size: 30px;
-        text-align: center;
       }
 
       p {
         font-size: 16px;
-        text-align: center;
       }
     }
 
     &__filters {
       flex-direction: column;
+      align-items: center;
       width: 100%;
       padding-top: 0;
     }
   }
 
   .search-container {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    // Asegurar que el input dentro esté centrado
+    :deep(input) {
+      text-align: center;
+      width: 100%;
+    }
+  }
+
+  .search-error {
+    text-align: center;
     width: 100%;
   }
 
