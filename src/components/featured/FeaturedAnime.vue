@@ -21,10 +21,12 @@ onMounted(() => {
       <div class="featured__title text-center mb-4">
         <h1>Featured Anime</h1>
       </div>
-      <div class="d-flex flex-wrap justify-content-center px-4 px-md-5" style="gap: 0.5rem;">
-        <div v-for="anime in adminStore.featuredAnimes" :key="anime.mal_id" style="width: 18rem;">
-          <AnimeCard :anime="anime" />
-        </div>
+      <div class="featured-grid">
+        <AnimeCard 
+          v-for="anime in adminStore.featuredAnimes" 
+          :key="anime.mal_id"
+          :anime="anime" 
+        />
       </div>
     </div>
 
@@ -43,6 +45,7 @@ onMounted(() => {
 .featured {
   margin-top: 60px;
   margin-bottom: 48px;
+  padding: 0 1.5rem;
 
   &__title {
     h1 {
@@ -55,15 +58,49 @@ onMounted(() => {
   }
 }
 
-@media (max-width: 767.98px) {
+// Grid de 4 columnas para featured
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+// Responsive
+@media (max-width: 1100px) {
+  .featured {
+    padding: 0 1rem;
+  }
+  
+  .featured-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
   .featured {
     margin-top: 40px;
+    padding: 0 1rem;
 
     &__title {
       h1 {
         font-size: 30px;
       }
     }
+  }
+
+  .featured-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
 </style>
