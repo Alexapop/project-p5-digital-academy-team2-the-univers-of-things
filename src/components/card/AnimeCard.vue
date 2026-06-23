@@ -35,83 +35,82 @@ const displayedGenres = (genres) => {
       
       <div class="card-buttons">
         <router-link :to="'/anime/' + anime?.mal_id" class="btn btn-primary">See more</router-link>
-        <FavoriteButton />
+        <FavoriteButton :anime="anime" />
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* Los estilos de tu compañero se quedan EXACTAMENTE igual */
 .card {
-    border-radius: 1rem;
+  border-radius: 1rem;
 }
 
 img {
-    border-radius: 1rem 1rem 0rem 0rem;
-    max-height: 20rem;
-    object-fit: cover;
+  border-radius: 1rem 1rem 0rem 0rem;
+  max-height: 20rem;
+  object-fit: cover;
 }
 
 .card-text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: rgb(103, 110, 110);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgb(103, 110, 110);
 }
 
 .card-title {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .genres {
-    list-style-type: none;
-    margin: 0px;
-    margin-bottom: 10px;
-    padding: 0px;
-    display: flex;
-    font-size: 12px;
+  list-style-type: none;
+  margin: 0px;
+  margin-bottom: 10px;
+  padding: 0px;
+  display: flex;
+  font-size: 12px;
 }
 
 .genres li {
-    background-color: rgb(221, 224, 224);
-    padding: 8px 12px 8px 12px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    border-radius: 2rem;
-    font-weight: bold;
+  background-color: rgb(221, 224, 224);
+  padding: 8px 12px 8px 12px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 2rem;
+  font-weight: bold;
 }
 
 .card-buttons {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #7c4dff, #b766f2);
-    border-style: none;
-    max-height: 40px;
-    vertical-align: middle;
+  background: linear-gradient(135deg, #7c4dff, #b766f2);
+  border-style: none;
+  max-height: 40px;
+  vertical-align: middle;
 }
 
 .btn-primary:hover {
-    filter: brightness(125%);
+  filter: brightness(125%);
 }
 
 .btn-secondary {
-    background-color: rgb(221, 224, 224);
-    border-style: none;
-    color: black;
-    padding: 10px;
-    text-align: center;
-    border-radius: 100%;
+  background-color: rgb(221, 224, 224);
+  border-style: none;
+  color: black;
+  padding: 10px;
+  text-align: center;
+  border-radius: 100%;
 }
 
 .btn-secondary:hover {
-    filter: brightness(105%);
+  filter: brightness(105%);
 }
 </style>

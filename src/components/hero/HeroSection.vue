@@ -4,11 +4,13 @@ import LoginButton from "../login/LoginButton.vue";
 import WeeklyBadge from "./WeeklyBadge.vue";
 import AnimeCard from "../card/AnimeCard.vue";
 
-// Importamos el store de administración de Pinia
+// 1. Importamos AMBOS stores (el de admin para la tarjeta y el de auth para los botones)
 import { useAdminStore } from "@/stores/admin";
+import { useAuthStore } from "@/stores/auth";
 
-// Instanciamos el store para poder usarlo en el template
+// 2. Los instanciamos correctamente
 const adminStore = useAdminStore();
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -24,8 +26,16 @@ const adminStore = useAdminStore();
       </p>
 
       <div class="hero__actions">
-        <RegisterButton label="Crear cuenta gratis" />
-        <LoginButton />
+        <template v-if="!authStore.currentUser">
+          <RegisterButton label="Crear cuenta gratis" />
+          <LoginButton />
+        </template>
+        
+        <template v-else>
+          <div class="welcome-badge">
+            👋 ¡Hola de nuevo, <span class="fw-bold">{{ authStore.currentUser.name }}</span>!
+          </div>
+        </template>
       </div>
     </div>
 
@@ -79,6 +89,7 @@ const adminStore = useAdminStore();
   &__actions {
     display: flex;
     gap: 1rem;
+    align-items: center;
   }
 
   &__featured {
@@ -87,6 +98,17 @@ const adminStore = useAdminStore();
     align-items: center;
     width: 350px;
   }
+}
+
+// Estilo simple para el mensajito de bienvenida
+.welcome-badge {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1.05rem;
 }
 
 .weekly-card-slot {

@@ -30,12 +30,15 @@ export const useAnimeStore = defineStore('anime', {
     }),
   
     getters: {
-        totalPages: (state) => Math.ceil(state.animes.length / state.perPage),
+        // Aseguramos que lea la longitud sobre un array real usando "|| []"
+        totalPages: (state) => Math.ceil((state.animes || []).length / state.perPage),
         
+        // PARCHE DE SEGURIDAD ABSOLUTO: Si la API se cae o da error 429, no rompe el .slice
         paginatedAnimes: (state) => {
+            const listaSegura = state.animes || []
             const start = (state.currentPage - 1) * state.perPage
             const end = start + state.perPage
-            return state.animes.slice(start, end)
+            return listaSegura.slice(start, end)
         }
     },
   
@@ -45,9 +48,12 @@ export const useAnimeStore = defineStore('anime', {
             this.error = null
       
             try {
-                this.animes = await animeService.getAnimes()
+                const response = await animeService.getAnimes()
+                // Validamos que si el servicio falla o no devuelve nada, ponga un array vacío en vez de romper la app
+                this.animes = response || []
             } catch (error) {
                 this.error = 'Error al cargar los animes'
+                this.animes = [] // Forzamos array vacío para que los componentes sigan funcionando
                 console.error(error)
             } finally {
                 this.loading = false
@@ -58,7 +64,7 @@ export const useAnimeStore = defineStore('anime', {
             this.currentPage = page
         },
 
-        // 3. NUEVA ACCIÓN: Guarda los destacados permanentemente en el navegador
+        // 3. Guarda los destacados permanentemente en el navegador
         updateAdminSelections(nuevosDestacados, nuevoAnimeSemana) {
             if (nuevosDestacados) {
                 this.featuredAnimes = nuevosDestacados

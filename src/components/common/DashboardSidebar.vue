@@ -1,10 +1,10 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
-// Inicializamos el enrutador para poder redirigir al usuario
 const router = useRouter()
+const authStore = useAuthStore()
 
-// Definimos las props con valores por defecto por si acaso
 defineProps({
   title: {
     type: String,
@@ -13,7 +13,6 @@ defineProps({
   links: {
     type: Array,
     required: true,
-    // Estructura esperada: [{ to: '/ruta', label: 'Texto', icon: 'bi-person' }]
   },
   userData: {
     type: Object,
@@ -21,15 +20,14 @@ defineProps({
       name: 'Sora Tanaka',
       email: 'user@otakuhub.dev',
       fallback: 'ST',
-      avatar: '' // Añadido por defecto
+      avatar: ''
     })
   }
 })
 
-
 const logout = () => {
-  // Nota: Aquí es donde más adelante borrarás los tokens de autenticación o limpiarás Pinia
-  router.push('/') // Te redirige automáticamente a la Home sin ventanas emergentes
+  authStore.logout()
+  window.location.href = '/'
 }
 </script>
 
@@ -132,8 +130,6 @@ const logout = () => {
   color: #949aae;
   text-decoration: none;
   transition: all 0.2s ease;
-  
-  // 🔥 ESTO ASEGURA QUE SE VEA EN LÍNEA TANTO PARA EL ADMIN COMO PARA EL USUARIO
   display: flex;
   align-items: center;
   white-space: nowrap; 
@@ -157,7 +153,6 @@ const logout = () => {
   &:hover { color: #ffffff; }
 }
 
-// 🔥 CLASE NUEVA PARA ESTILIZAR EL CONTENEDOR DEL ROBOT AVATAR 🔥
 .avatar-admin-image {
   width: 42px;
   height: 42px;

@@ -2,14 +2,14 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', () => {
-    const users = ref([
+    const initialUsers = [
         {
             name: 'Sora Tanaka',
             email: 'user@otakuhub.dev',
             password: 'user1234',
             role: 'customer',
             avatar: '',
-            isBlocked: false // 🔥 Grabado a fuego: Estado por defecto
+            isBlocked: false
         },
         {
             name: 'Admin Hub',
@@ -17,16 +17,18 @@ export const useAuthStore = defineStore('auth', () => {
             password: 'admin123',
             role: 'admin',
             avatar: '',
-            isBlocked: false // 🔥 Los admins no suelen empezar bloqueados
-        },
-    ])
+            isBlocked: false
+        }
+    ]
 
-    const currentUser = ref(null)
-    
-    // Nuevo: Estado de favoritos
+    const users = ref(JSON.parse(localStorage.getItem('otakuhub_users')) || initialUsers)
+    const currentUser = ref(JSON.parse(localStorage.getItem('otakuhub_current_user')) || null)
     const favorites = ref([])
 
-    // Cargar favoritos desde localStorage al iniciar
+    function saveUsersToStorage() {
+        localStorage.setItem('otakuhub_users', JSON.stringify(users.value))
+    }
+
     const loadFavorites = () => {
         const saved = localStorage.getItem('userFavorites')
         if (saved) {
@@ -34,21 +36,15 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
-    // Guardar favoritos en localStorage
     const saveFavorites = () => {
         localStorage.setItem('userFavorites', JSON.stringify(favorites.value))
     }
 
     function login(email, password) {
-        const foundUser = users.value.find((user) => {
-            return user.email === email && user.password === password
-        })
+        const foundUser = users.value.find((user) => user.email === email && user.password === password)
 
-        if (!foundUser) {
-            return false
-        }
+        if (!foundUser) return false
 
-        // 🧪 TEST DE BLOQUEO: Si está bloqueado, rechazamos el login de inmediato
         if (foundUser.isBlocked) {
             alert('Esta cuenta ha sido bloqueada por el administrador.')
             return false
@@ -62,18 +58,16 @@ export const useAuthStore = defineStore('auth', () => {
             isAuthenticated: true,
         }
         
-        // Cargar favoritos al iniciar sesión
+        localStorage.setItem('otakuhub_current_user', JSON.stringify(currentUser.value))
         loadFavorites()
-
         return currentUser.value
     }
 
     function register(name, email, password) {
-        const userExists = users.value.some((user) => {
-            return user.email === email
-        })
+        const userExists = users.value.some((user) => user.email === email)
 
         if (userExists) {
+            alert('El correo ya está registrado.')
             return false
         }
 
@@ -83,10 +77,11 @@ export const useAuthStore = defineStore('auth', () => {
             password,
             role: 'customer',
             avatar: '',
-            isBlocked: false // 🔥 Aseguramos que los nuevos registros empiecen activos
+            isBlocked: false 
         }
 
         users.value.push(newUser)
+        saveUsersToStorage()
 
         currentUser.value = {
             name: newUser.name,
@@ -95,8 +90,8 @@ export const useAuthStore = defineStore('auth', () => {
             avatar: newUser.avatar,
             isAuthenticated: true,
         }
+        localStorage.setItem('otakuhub_current_user', JSON.stringify(currentUser.value))
         
-        // Inicializar favoritos vacíos para nuevo usuario
         favorites.value = []
         saveFavorites()
 
@@ -115,29 +110,23 @@ export const useAuthStore = defineStore('auth', () => {
 
             currentUser.value.name = userInList.name
             currentUser.value.avatar = userInList.avatar
+
+            saveUsersToStorage()
+            localStorage.setItem('otakuhub_current_user', JSON.stringify(currentUser.value))
         }
     }
 
-    // 🔥 NUEVA ACCIÓN PARA EL ADMIN: Bloquear / Desbloquear
-    function toggleBlockUser(userIdOrEmail) {
-        // Buscamos por email o name ya que tus usuarios estáticos no tienen ID propio aún
-        const userInList = users.value.find(u => u.email === userIdOrEmail)
+    function toggleBlockUser(email) {
+        const userInList = users.value.find(u => u.email === email)
         if (userInList) {
             userInList.isBlocked = !userInList.isBlocked
+            saveUsersToStorage()
         }
     }
 
-    // Añadimos toggleBlockUser al return final
-    return { users, currentUser, login, register, updateProfile, toggleBlockUser }
-    // Nuevas funciones para favoritos
-    
-    // Añadir un favorito
     function addFavorite(animeData) {
-        // Verificar si ya existe
         const exists = favorites.value.find(fav => fav.mal_id === animeData.mal_id)
-        if (exists) {
-            return { success: false, message: 'Este anime ya está en tus favoritos' }
-        }
+        if (exists) return { success: false, message: 'Este anime ya está en tus favoritos' }
         
         favorites.value.push({
             id: Date.now(),
@@ -154,13 +143,11 @@ export const useAuthStore = defineStore('auth', () => {
         return { success: true, message: 'Añadido a favoritos correctamente' }
     }
 
-    // Eliminar un favorito
     function removeFavorite(id) {
         favorites.value = favorites.value.filter(fav => fav.id !== id)
         saveFavorites()
     }
 
-    // Actualizar un favorito
     function updateFavorite(id, data) {
         const index = favorites.value.findIndex(fav => fav.id === id)
         if (index !== -1) {
@@ -169,14 +156,21 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
-    // Verificar si un anime está en favoritos
     function isFavorite(malId) {
         return favorites.value.some(fav => fav.mal_id === malId)
     }
 
-    // Cargar favoritos al inicializar el store
+    // 🔥 LOGOUT CORREGIDO: Limpia el estado interno de la store y los favoritos en memoria
+    function logout() {
+        currentUser.value = null
+        favorites.value = []
+        localStorage.removeItem('otakuhub_current_user')
+        localStorage.removeItem('userFavorites')
+    }
+
     loadFavorites()
 
+    // 📦 REUNIDO Y AHORA SÍ INCLUYENDO EL LOGOUT EXTERNO
     return { 
         users, 
         currentUser, 
@@ -184,6 +178,8 @@ export const useAuthStore = defineStore('auth', () => {
         login, 
         register, 
         updateProfile,
+        toggleBlockUser,
+        logout, // <--- 🔥 ¡ESTO ERA LO QUE FALTABA EXPORTAR!
         addFavorite,
         removeFavorite,
         updateFavorite,

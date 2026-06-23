@@ -8,7 +8,8 @@ const animeStore = useAnimeStore()
 const adminStore = useAdminStore()
 
 onMounted(() => {
-  if (animeStore.animes.length === 0) {
+  // Parche anticaídas: Comprobamos de forma segura si la lista existe antes de mirar su length
+  if (!animeStore.animes || animeStore.animes.length === 0) {
     animeStore.fetchAnimes()
   }
 })   
@@ -17,7 +18,7 @@ onMounted(() => {
 <template>
   <div class="featured-wrapper">
     
-    <div v-if="adminStore.featuredAnimes && adminStore.featuredAnimes.length > 0" class="featured">
+    <div v-if="adminStore.featuredAnimes?.length > 0" class="featured">
       <div class="featured__title text-center mb-4">
         <h1>Featured Anime</h1>
       </div>
