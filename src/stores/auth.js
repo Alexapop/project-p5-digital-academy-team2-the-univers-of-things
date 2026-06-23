@@ -124,6 +124,8 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
+    // FUNCIONES DE FAVORITOS
+    
     function addFavorite(animeData) {
         const exists = favorites.value.find(fav => fav.mal_id === animeData.mal_id)
         if (exists) return { success: false, message: 'Este anime ya está en tus favoritos' }
