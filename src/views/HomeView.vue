@@ -1,10 +1,20 @@
 <script setup>
+import HeaderComponent from "@/components/header/HeaderComponent.vue";
+import HeroSection from "@/components/hero/HeroSection.vue";
+import HomeCatalogSection from "@/components/home-catalog/HomeCatalogSection.vue";
+import FooterComponent from "@/components/footer/FooterComponent.vue";
+import FeaturedAnime from '@/components/featured/FeaturedAnime.vue';
 </script>
 
 <template>
-
-  <h1>The Univers of Things</h1>
+  <HeaderComponent />
+  
+  <HeroSection />
 
   <main>
+    <FeaturedAnime />
+    <HomeCatalogSection />
   </main>
+
+  <FooterComponent />
 </template>

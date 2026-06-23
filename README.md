@@ -1,63 +1,73 @@
-# the Univers of things-T2
+# The Univers of Things
 
-This template should help get you started developing with Vue 3 in Vite.
+The Univers of Things is a fully responsive **Single Page Application (SPA)** built with **Vue.js**. It provides a public anime catalog and a private favorites area protected by user authentication.
 
-## Recommended IDE Setup
+Users can search, filter, and browse anime with pagination, manage their favorites, and update their profile and password. Admin users have access to a dedicated dashboard for user management and featured-content configuration.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+The project was developed using an Agile workflow, organized into **two two-week sprints**, with planning and task tracking managed in Jira.
 
-## Recommended Browser Setup
+## ✨ Features
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- Responsive public anime catalog
+- Search, filtering, and pagination
+- User registration and authentication
+- Personal dashboard and profile management
+- Favorites management and rating
+- Admin dashboard for users and featured content
 
-## Customize configuration
+## 🛠️ Tech Stack
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- **Frontend:** HTML5, CSS3, Sass, Bootstrap, Vue.js
+- **State Management:** Pinia
+- **Routing:** Vue Router
+- **Unit Testing:** Vitest
+- **End-to-End Testing:** Playwright
+- **Build Tool:** Vite
+- **Version Control:** Git and GitHub
 
-## Project Setup
+## 🖌️ Design and Prototyping
 
-```sh
-npm install
-```
+- [Interactive mockups](https://univers-of-things.lovable.app/)
+- [Figma wireframe](https://www.figma.com/proto/NFFXZqwMBLzCaRw2PFyiYL/Mockup-Lovable?node-id=6-394&t=Qmjm0Ncs3CmXOENF-1)
 
-### Compile and Hot-Reload for Development
+## 🔀 User Flow
 
-```sh
-npm run dev
-```
+![Application user flow](docs/images/project-management/user-flow.jpg)
 
-### Compile and Minify for Production
+## 📋 Project Management
 
-```sh
-npm run build
-```
+### Jira Timeline
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+![Jira project timeline](docs/images/project-management/timeline-jira.jpg)
 
-```sh
-npm run test:unit
-```
+### Sample User Story
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
+![Jira sample user story](docs/images/project-management/user-story.jpg)
 
-```sh
-# Install browsers for the first run
-npx playwright install
+### Sprint 1
 
-# When testing on CI, must build the project first
-npm run build
+![Jira Sprint 1 board](docs/images/project-management/sprint-1.jpg)
 
-# Runs the end-to-end tests
-npm run test:e2e
-# Runs the tests only on Chromium
-npm run test:e2e -- --project=chromium
-# Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
-```
+### Sprint 2
+
+![Jira Sprint 2 board](docs/images/project-management/sprint-2.jpg)
+
+## 🧪 Testing
+
+- [Unit Test Screenshots](docs/images/tests/unit-tests/)
+- [End-to-End Test Screenshots](docs/images/tests/end-to-end/)
+
+## 🔌 API
+
+Anime data is provided by the [Jikan API](https://api.jikan.moe/v4/anime).
+
+## 📦 Deployment
+
+- [GitHub Pages](https://factoriaf5-asturias.github.io/project-p5-digital-academy-team2-the-univers-of-things/)
+
+## 👩‍💻 Authors
+
+- [Andrea](https://github.com/AndreaVaGo)
+- [Hanna](https://github.com/hannafr14)
+- [Ioana](https://github.com/Alexapop)
+- [Simone](https://github.com/simoneavilarranz)

@@ -15,4 +15,17 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  // Forzamos a Vite a usar estrictamente el puerto 5173
+  server: {
+    port: 5173,
+    strictPort: true, 
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        quietDeps: true,
+        silenceDeprecations: ['import', 'global-builtin', 'if-function', 'color-functions']
+      }
+    }
+  }
 })
