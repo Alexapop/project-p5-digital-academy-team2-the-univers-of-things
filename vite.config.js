@@ -6,6 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+    base: '/project-p5-digital-academy-team2-the-univers-of-things/',
   plugins: [
     vue(),
     vueDevTools(),
