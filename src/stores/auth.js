@@ -9,7 +9,7 @@ export const useAuthStore = defineStore('auth', () => {
             password: 'user1234',
             role: 'customer',
             avatar: '',
-            isBlocked: false // 🔥 Grabado a fuego: Estado por defecto
+            isBlocked: false
         },
         {
             name: 'Admin Hub',
@@ -17,13 +17,13 @@ export const useAuthStore = defineStore('auth', () => {
             password: 'admin123',
             role: 'admin',
             avatar: '',
-            isBlocked: false // 🔥 Los admins no suelen empezar bloqueados
+            isBlocked: false
         },
     ])
 
     const currentUser = ref(null)
     
-    // Nuevo: Estado de favoritos
+    // Estado de favoritos
     const favorites = ref([])
 
     // Cargar favoritos desde localStorage al iniciar
@@ -48,7 +48,6 @@ export const useAuthStore = defineStore('auth', () => {
             return false
         }
 
-        // 🧪 TEST DE BLOQUEO: Si está bloqueado, rechazamos el login de inmediato
         if (foundUser.isBlocked) {
             alert('Esta cuenta ha sido bloqueada por el administrador.')
             return false
@@ -83,7 +82,7 @@ export const useAuthStore = defineStore('auth', () => {
             password,
             role: 'customer',
             avatar: '',
-            isBlocked: false // 🔥 Aseguramos que los nuevos registros empiecen activos
+            isBlocked: false
         }
 
         users.value.push(newUser)
@@ -118,20 +117,15 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
-    // 🔥 NUEVA ACCIÓN PARA EL ADMIN: Bloquear / Desbloquear
     function toggleBlockUser(userIdOrEmail) {
-        // Buscamos por email o name ya que tus usuarios estáticos no tienen ID propio aún
         const userInList = users.value.find(u => u.email === userIdOrEmail)
         if (userInList) {
             userInList.isBlocked = !userInList.isBlocked
         }
     }
 
-    // Añadimos toggleBlockUser al return final
-    return { users, currentUser, login, register, updateProfile, toggleBlockUser }
-    // Nuevas funciones para favoritos
+    // FUNCIONES DE FAVORITOS
     
-    // Añadir un favorito
     function addFavorite(animeData) {
         // Verificar si ya existe
         const exists = favorites.value.find(fav => fav.mal_id === animeData.mal_id)
@@ -154,13 +148,11 @@ export const useAuthStore = defineStore('auth', () => {
         return { success: true, message: 'Añadido a favoritos correctamente' }
     }
 
-    // Eliminar un favorito
     function removeFavorite(id) {
         favorites.value = favorites.value.filter(fav => fav.id !== id)
         saveFavorites()
     }
 
-    // Actualizar un favorito
     function updateFavorite(id, data) {
         const index = favorites.value.findIndex(fav => fav.id === id)
         if (index !== -1) {
@@ -169,7 +161,6 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
-    // Verificar si un anime está en favoritos
     function isFavorite(malId) {
         return favorites.value.some(fav => fav.mal_id === malId)
     }
@@ -177,6 +168,7 @@ export const useAuthStore = defineStore('auth', () => {
     // Cargar favoritos al inicializar el store
     loadFavorites()
 
+    // UN SOLO RETURN CON TODAS LAS FUNCIONES
     return { 
         users, 
         currentUser, 
@@ -184,6 +176,7 @@ export const useAuthStore = defineStore('auth', () => {
         login, 
         register, 
         updateProfile,
+        toggleBlockUser,
         addFavorite,
         removeFavorite,
         updateFavorite,

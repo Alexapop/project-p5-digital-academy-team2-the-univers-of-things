@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import { useAnimeStore } from "@/stores/animeStore";
-import { useAdminStore } from "@/stores/admin"; // Mantenemos el store por si acaso
+import { useAdminStore } from "@/stores/admin";
 import HomeCatalogSearchInput from "./HomeCatalogSearchInput.vue";
 import HomeCatalogGenreFilter from "./HomeCatalogGenreFilter.vue";
 import PaginationHub from "../pagination/PaginationHub.vue";
@@ -61,15 +61,15 @@ const filteredAnimes = computed(() => {
 </script>
 
 <template>
-  <section class="home-catalog container-fluid px-4 px-lg-5">
+  <section class="home-catalog">
     
-    <header class="home-catalog__header d-flex flex-column flex-lg-row justify-content-between gap-3">
+    <header class="home-catalog__header">
       <div class="home-catalog__title">
         <h2>Catálogo General</h2>
         <p>Filtra por género, busca y descubre algo nuevo.</p>
       </div>
 
-      <div class="home-catalog__filters d-flex flex-column flex-sm-row gap-2">
+      <div class="home-catalog__filters">
         <div class="search-container">
           <HomeCatalogSearchInput v-model="searchText" />
           <p v-if="searchError" class="search-error">
@@ -80,7 +80,13 @@ const filteredAnimes = computed(() => {
       </div>
     </header>
 
-    <div v-if="animeStore.loading" class="text-center py-5">Cargando...</div>
+    <div v-if="animeStore.loading" class="text-center py-5">
+      <div class="spinner-border" style="color: #7c4dff;" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-3 text-muted">Cargando animes...</p>
+    </div>
+    
     <div v-else-if="animeStore.error" class="alert alert-danger">
       {{ animeStore.error }}
     </div>
@@ -96,18 +102,13 @@ const filteredAnimes = computed(() => {
       No tenemos anime disponible con estos filtros.
     </div>
 
-    <div
-      v-else
-      class="d-flex flex-wrap justify-content-center px-4 px-md-5"
-      style="gap: 0.5rem"
-    >
-      <div
-        v-for="anime in filteredAnimes"
+    <!-- GRID 5x5 -->
+    <div v-else class="catalog-grid">
+      <AnimeCard 
+        v-for="anime in filteredAnimes" 
         :key="anime.mal_id"
-        style="width: 18rem"
-      >
-        <AnimeCard :anime="anime" />
-      </div>
+        :anime="anime" 
+      />
     </div>
 
     <PaginationHub
@@ -119,12 +120,18 @@ const filteredAnimes = computed(() => {
 <style lang="scss" scoped>
 .home-catalog {
   margin-top: 60px;
-  padding-bottom: 48px;
+  padding: 0 1.5rem 48px;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
 
   &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 32px;
-    margin-left: 100px;
-    margin-right: 100px;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 
   &__title {
@@ -144,37 +151,19 @@ const filteredAnimes = computed(() => {
   }
 
   &__filters {
+    display: flex;
+    gap: 1rem;
     align-items: flex-start;
-    padding-top: 32px;
-
-    :deep(> div),
-    :deep(> select) {
-      margin: 0;
-    }
-
-    :deep(> div) {
-      width: auto;
-      max-width: 320px;
-    }
-
-    :deep(> select) {
-      width: 220px;
-      max-width: 220px;
-      padding-left: 16px;
-    }
+    padding-top: 8px;
   }
+}
 
-  :deep(.card) {
-    width: 100% !important;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  :deep(.card-img-top) {
-    width: 100%;
-    height: clamp(260px, 32vw, 420px);
-    object-fit: cover;
-  }
+// GRID 5x5
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.25rem;
+  width: 100%;
 }
 
 .search-container {
@@ -187,14 +176,34 @@ const filteredAnimes = computed(() => {
   font-size: 14px;
 }
 
-@media (max-width: 767.98px) {
+// Responsive
+@media (max-width: 1400px) {
+  .home-catalog {
+    max-width: 100%;
+    padding: 0 1rem 48px;
+  }
+  
+  .catalog-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .catalog-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
   .home-catalog {
     margin-top: clamp(96px, 28vh, 180px);
+    padding: 0 1rem 48px;
 
     &__header {
+      flex-direction: column;
       margin-bottom: 24px;
-      margin-left: 0px;
-      margin-right: 0px;
     }
 
     &__title {
@@ -210,18 +219,26 @@ const filteredAnimes = computed(() => {
     }
 
     &__filters {
+      flex-direction: column;
+      width: 100%;
       padding-top: 0;
-
-      :deep(> div),
-      :deep(> select) {
-        width: 100%;
-        max-width: none;
-      }
     }
+  }
 
-    :deep(.card-img-top) {
-      height: clamp(190px, 58vw, 280px);
-    }
+  .search-container {
+    width: 100%;
+  }
+
+  .catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .catalog-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
 </style>

@@ -1,20 +1,4 @@
 import { defineStore } from 'pinia'
-import { animeService } from '@/services/animeService'
-
-// 1. Datos estáticos por defecto (para que el Home NUNCA salga vacío si no hay cambios)
-const DESTACADOS_POR_DEFECTO = [
-    { id: 101, title: 'Attack on Titan', mal_id: 16498, image_url: 'https://cdn.myanimelist.net/images/anime/10/47347.jpg', score: 8.5 },
-    { id: 102, title: 'Demon Slayer', mal_id: 38000, image_url: 'https://cdn.myanimelist.net/images/anime/1286/99889.jpg', score: 8.4 },
-    { id: 103, title: 'Jujutsu Kaisen', mal_id: 40748, image_url: 'https://cdn.myanimelist.net/images/anime/1171/109222.jpg', score: 8.7 }
-]
-
-const ANIME_SEMANA_POR_DEFECTO = {
-    id: 104,
-    title: 'One Piece',
-    mal_id: 21,
-    image_url: 'https://cdn.myanimelist.net/images/anime/6/73244.jpg',
-    synopsis: '¡El anime legendario seleccionado de forma fija por el staff de OtakuHub!'
-}
 
 export const useAnimeStore = defineStore('anime', {
     state: () => ({
@@ -22,30 +6,52 @@ export const useAnimeStore = defineStore('anime', {
         loading: false,
         error: null,
         currentPage: 1,
-        perPage: 8,
+        perPage: 25,
+        totalItems: 0,
+        totalPagesFromApi: 1,
 
-        // 2. Cargamos de localStorage si existe, si no, metemos los datos por defecto
-        featuredAnimes: JSON.parse(localStorage.getItem('otakuhub_featured')) || DESTACADOS_POR_DEFECTO,
-        animeOfTheWeek: JSON.parse(localStorage.getItem('otakuhub_week')) || ANIME_SEMANA_POR_DEFECTO
+        featuredAnimes: JSON.parse(localStorage.getItem('otakuhub_featured')) || [],
+        animeOfTheWeek: JSON.parse(localStorage.getItem('otakuhub_week')) || null
     }),
   
     getters: {
-        totalPages: (state) => Math.ceil(state.animes.length / state.perPage),
+        totalPages: (state) => {
+            return Math.max(1, Math.min(state.totalPagesFromApi || 1, 25))
+        },
         
         paginatedAnimes: (state) => {
-            const start = (state.currentPage - 1) * state.perPage
-            const end = start + state.perPage
-            return state.animes.slice(start, end)
+            return state.animes
         }
     },
   
     actions: {
-        async fetchAnimes() {
+        async fetchAnimes(page = 1) {
             this.loading = true
             this.error = null
       
             try {
-                this.animes = await animeService.getAnimes()
+                const response = await fetch(`https://api.jikan.moe/v4/anime?page=${page}&min_score=8.2`)
+                
+                if (response.status === 429) {
+                    await new Promise(resolve => setTimeout(resolve, 1000))
+                    return await this.fetchAnimes(page)
+                }
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok')
+                }
+
+                const fetchedData = await response.json()
+
+                if (fetchedData && fetchedData.data) {
+                    this.animes = fetchedData.data
+                    this.currentPage = page
+                    this.totalItems = fetchedData.data.length
+                    
+                    if (fetchedData.pagination && fetchedData.pagination.last_visible_page) {
+                        this.totalPagesFromApi = fetchedData.pagination.last_visible_page
+                    }
+                }
             } catch (error) {
                 this.error = 'Error al cargar los animes'
                 console.error(error)
@@ -55,10 +61,10 @@ export const useAnimeStore = defineStore('anime', {
         },
         
         goToPage(page) {
-            this.currentPage = page
+            if (page < 1 || page > this.totalPages) return
+            this.fetchAnimes(page)
         },
 
-        // 3. NUEVA ACCIÓN: Guarda los destacados permanentemente en el navegador
         updateAdminSelections(nuevosDestacados, nuevoAnimeSemana) {
             if (nuevosDestacados) {
                 this.featuredAnimes = nuevosDestacados
