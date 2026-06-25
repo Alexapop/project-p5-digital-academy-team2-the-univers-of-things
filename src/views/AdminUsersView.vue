@@ -1,18 +1,15 @@
 <script setup>
-
+import { RouterLink } from 'vue-router'
 import AdminUsersTable from '@/components/admin/AdminUsersTable.vue'
-
-
 </script>
 
 <template>
   <div class="w-100 d-flex flex-column flex-grow-1 min-vh-100 bg-light">
-    
     <header class="bg-white border-bottom px-5 py-3 d-flex justify-content-between align-items-center">
-      <span class="fw-semibold text-secondary">Panel de Administración</span>
-      <a href="/" class="text-decoration-none text-secondary small d-flex align-items-center gap-1">
+      <span class="fw-semibold text-secondary">Panel de Administraci&oacute;n</span>
+      <RouterLink to="/" class="text-decoration-none text-secondary small d-flex align-items-center gap-1">
         &larr; Volver al sitio
-      </a>
+      </RouterLink>
     </header>
 
     <main class="flex-grow-1 px-5 py-4">
@@ -20,7 +17,7 @@ import AdminUsersTable from '@/components/admin/AdminUsersTable.vue'
         <h1 class="fw-bold text-dark display-6 m-0">Usuarios</h1>
         <p class="text-muted mt-1">Gestiona el acceso de los usuarios registrados.</p>
       </div>
-      
+
       <AdminUsersTable />
     </main>
 
@@ -31,5 +28,4 @@ import AdminUsersTable from '@/components/admin/AdminUsersTable.vue'
 </template>
 
 <style scoped>
-/* Dejamos las clases nativas de Bootstrap para evitar que colapse el diseño */
 </style>

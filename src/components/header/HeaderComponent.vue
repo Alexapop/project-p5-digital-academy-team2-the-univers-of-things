@@ -4,11 +4,12 @@ import LoginButton from "@/components/login/LoginButton.vue";
 import RegisterButton from "@/components/register/RegisterButton.vue";
 
 import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 
 const authStore = useAuthStore();
 const route = useRoute();
+const router = useRouter();
 
 const userSession = computed(() => authStore.currentUser);
 
@@ -18,7 +19,7 @@ const isInDashboard = computed(() => {
 
 function handleLogout() {
   authStore.logout();
-  window.location.href = "/";
+  router.push("/");
 }
 </script>
 
