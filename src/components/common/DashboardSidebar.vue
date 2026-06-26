@@ -27,7 +27,7 @@ defineProps({
 
 const logout = () => {
   authStore.logout()
-  window.location.href = '/'
+  router.push('/')
 }
 </script>
 
