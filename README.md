@@ -25,45 +25,29 @@ The project was developed using an Agile workflow, organized into **two two-week
 - **Build Tool:** Vite
 - **Version Control:** Git and GitHub
 
-## 🖌️ Design and Prototyping
+## 📚 Documentation
 
-- [Interactive mockups](https://univers-of-things.lovable.app/)
-- [Figma wireframe](https://www.figma.com/proto/NFFXZqwMBLzCaRw2PFyiYL/Mockup-Lovable?node-id=6-394&t=Qmjm0Ncs3CmXOENF-1)
+The complete project documentation is available in the Wiki:
 
-## 🔀 User Flow
+- [Complete documentation in the Wiki](https://github.com/Alexapop/project-p5-digital-academy-team2-the-univers-of-things/wiki)
 
-![Application user flow](docs/images/project-management/user-flow.jpg)
+The Wiki is organized into the following sections:
 
-## 📋 Project Management
+- [Getting Started](https://github.com/Alexapop/project-p5-digital-academy-team2-the-univers-of-things/wiki/Getting-Started)
+- [Features](https://github.com/Alexapop/project-p5-digital-academy-team2-the-univers-of-things/wiki/Features)
+- [Architecture](https://github.com/Alexapop/project-p5-digital-academy-team2-the-univers-of-things/wiki/Architecture)
+- [Testing](https://github.com/Alexapop/project-p5-digital-academy-team2-the-univers-of-things/wiki/Testing)
+- [Project Management](https://github.com/Alexapop/project-p5-digital-academy-team2-the-univers-of-things/wiki/Project-Management)
+- [Deployment](https://github.com/Alexapop/project-p5-digital-academy-team2-the-univers-of-things/wiki/Deployment)
 
-### Jira Timeline
+## 🚀 Usage
 
-![Jira project timeline](docs/images/project-management/timeline-jira.jpg)
+You can try the application from [GitHub Pages](https://factoriaf5-asturias.github.io/project-p5-digital-academy-team2-the-univers-of-things/) using the demo credentials.
 
-### Sample User Story
-
-![Jira sample user story](docs/images/project-management/user-story.jpg)
-
-### Sprint 1
-
-![Jira Sprint 1 board](docs/images/project-management/sprint-1.jpg)
-
-### Sprint 2
-
-![Jira Sprint 2 board](docs/images/project-management/sprint-2.jpg)
-
-## 🧪 Testing
-
-- [Unit Test Screenshots](docs/images/tests/unit-tests/)
-- [End-to-End Test Screenshots](docs/images/tests/end-to-end/)
-
-## 🔌 API
-
-Anime data is provided by the [Jikan API](https://api.jikan.moe/v4/anime).
-
-## 📦 Deployment
-
-- [GitHub Pages](https://factoriaf5-asturias.github.io/project-p5-digital-academy-team2-the-univers-of-things/)
+| Role | Email | Password |
+| --- | --- | --- |
+| User | `user@otakuhub.dev` | `user1234` |
+| Admin | `admin@otakuhub.dev` | `admin123` |
 
 ## 👩‍💻 Authors
 
