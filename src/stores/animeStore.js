@@ -17,9 +17,6 @@ export const useAnimeStore = defineStore('anime', {
     getters: {
         // Aseguramos que lea la longitud sobre un array real usando "|| []"
         totalPages: (state) => Math.ceil((state.animes || []).length / state.perPage),
-        totalPages: (state) => {
-            return Math.max(1, Math.min(state.totalPagesFromApi || 1, 25))
-        },
         
         // PARCHE DE SEGURIDAD ABSOLUTO: Si la API se cae o da error 429, no rompe el .slice
         paginatedAnimes: (state) => {
@@ -27,7 +24,6 @@ export const useAnimeStore = defineStore('anime', {
             const start = (state.currentPage - 1) * state.perPage
             const end = start + state.perPage
             return listaSegura.slice(start, end)
-            return state.animes
         }
     },
   
