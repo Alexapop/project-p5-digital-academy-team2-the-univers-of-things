@@ -15,13 +15,15 @@ export const useAnimeStore = defineStore('anime', {
     }),
   
     getters: {
-        totalPages: (state) => {
-            return Math.max(1, Math.min(state.totalPagesFromApi || 1, 25))
-        },
+        // Aseguramos que lea la longitud sobre un array real usando "|| []"
+        totalPages: (state) => Math.ceil((state.animes || []).length / state.perPage),
         
         // PARCHE DE SEGURIDAD ABSOLUTO: Si la API se cae o da error 429, no rompe el .slice
         paginatedAnimes: (state) => {
-            return state.animes
+            const listaSegura = state.animes || []
+            const start = (state.currentPage - 1) * state.perPage
+            const end = start + state.perPage
+            return listaSegura.slice(start, end)
         }
     },
   
